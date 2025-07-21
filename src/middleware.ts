@@ -1,10 +1,10 @@
-import {NextRequest, NextResponse} from "next/server";
-import {getSessionCookie} from "better-auth/cookies";
+import { NextRequest, NextResponse } from "next/server";
+import { getSessionCookie } from "better-auth/cookies";
 
 const protectedRoutes = ["/dashboard", "/profile"];
 
 export async function middleware(req: NextRequest) {
-    const {nextUrl} = req;
+    const { nextUrl } = req;
     const sessionCookie = getSessionCookie(req);
     const res = NextResponse.next();
     const isLoggedIn = !!sessionCookie;

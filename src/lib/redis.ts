@@ -25,10 +25,3 @@ export const getRedisClient = async () => {
 
     return redis;
 };
-
-export const disconnectRedis = async () => {
-    if (redis) {
-        await redis.disconnect();
-        redis = null;
-    }
-};
