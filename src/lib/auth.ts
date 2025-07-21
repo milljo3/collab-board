@@ -2,12 +2,45 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { PrismaClient } from "../../node_modules/@prisma/client";
 import {sendEmailAction} from "@/actions/send-email.action";
+import {getRedisClient} from "@/lib/redis";
 
 const prisma = new PrismaClient();
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
+    secondaryStorage: {
+        get: async (key: string) => {
+            try {
+                const redis = await getRedisClient();
+                const value = await redis.get(key);
+                return value ? value : null;
+            } catch (error) {
+                console.error('Redis get error:', error);
+                return null;
+            }
+        },
+        set: async (key: string, value: string, ttl?: number) => {
+            try {
+                const redis = await getRedisClient();
+                if (ttl) {
+                    await redis.setEx(key, ttl, value);
+                } else {
+                    await redis.set(key, value);
+                }
+            } catch (error) {
+                console.error('Redis set error:', error);
+            }
+        },
+        delete: async (key: string) => {
+            try {
+                const redis = await getRedisClient();
+                await redis.del(key);
+            } catch (error) {
+                console.error('Redis delete error:', error);
+            }
+        }
+    },
     emailAndPassword: {
         enabled: true,
         minPasswordLength: 6,
