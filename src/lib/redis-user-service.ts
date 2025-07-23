@@ -14,7 +14,7 @@ export class RedisUserService {
 
     private static readonly PERMISSIONS = {
         VIEW_BOARD: Role.VIEWER,
-        EDIT_BOARD: Role.EDITOR,
+        EDIT_BOARD_TITLE: Role.OWNER,
         DELETE_BOARD: Role.OWNER,
         MANAGE_USERS: Role.OWNER,
         CREATE_CATEGORY: Role.EDITOR,
@@ -22,7 +22,8 @@ export class RedisUserService {
         DELETE_CATEGORY: Role.EDITOR,
         CREATE_TASK: Role.EDITOR,
         EDIT_TASK: Role.EDITOR,
-        DELETE_TASK: Role.EDITOR
+        DELETE_TASK: Role.EDITOR,
+        MOVE_TASK: Role.EDITOR,
     } as const;
 
     static getUsersCacheKey(boardId: string, userId: string) {
@@ -57,11 +58,7 @@ export class RedisUserService {
         const userRole = await this.getUserRole(boardId, userId);
         const requiredRole = this.PERMISSIONS[requiredPermission];
 
-        if (this.ROLE_HIERARCHY[userRole] < this.ROLE_HIERARCHY[requiredRole]) {
-            throw new Error("Insufficient permissions");
-        }
-
-        return true;
+        return this.ROLE_HIERARCHY[userRole] >= this.ROLE_HIERARCHY[requiredRole];
     }
 
     // Call in user routes (updated role / deleting a user)

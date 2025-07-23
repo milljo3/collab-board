@@ -3,6 +3,7 @@ import { prisma } from './prisma';
 import {RedisCacheKeys} from "@/consts/redis";
 import {Board, boardSchema, GetAllBoards, getAllBoardsSchema, UpdateBoard} from "@/types/board";
 import {Role} from "@prisma/client";
+import {RedisUserService} from "@/lib/redis-user-service";
 
 const CACHE_TTL = 600;
 
@@ -70,6 +71,24 @@ export class RedisBoardService {
         return freshBoard;
     }
 
+    static async deleteBoard(boardId: string) {
+        const boardUsers = await prisma.boardUser.findMany({
+            where: { id: boardId },
+            select: { userId: true }
+        });
+
+        const userIds = boardUsers.map(bu => bu.userId);
+        await Promise.all(userIds.map(userId =>
+            RedisUserService.invalidateUserRole(boardId, userId)
+        ));
+
+        await prisma.board.delete({
+            where: { id: boardId },
+        });
+
+        await this.invalidateBoard(boardId);
+    }
+
     static async invalidateBoard(boardId: string) {
         const redis = await getRedisClient();
         await redis.del(this.getBoardCacheKey(boardId));
@@ -81,7 +100,7 @@ export class RedisAllBoardService {
         return `${RedisCacheKeys.BOARDS}:${userId}`;
     }
 
-    private static async fetchAllBoardsFromDb(userId: string): Promise<GetAllBoards> {
+    private static async fetchAllBoardsFromDb(userId: string): Promise<GetAllBoards[]> {
         const boards = await prisma.boardUser.findMany({
             where: { userId },
             select: {
@@ -89,15 +108,16 @@ export class RedisAllBoardService {
                     select: {
                         id: true,
                         title: true,
+                        createdAt: true,
                     }
                 }
             }
         });
 
-        return getAllBoardsSchema.parse(boards.map(entry => entry.board));
+        return getAllBoardsSchema.array().parse(boards.map(entry => entry.board));
     }
 
-    static async getAllBoards(userId: string): Promise<GetAllBoards> {
+    static async getAllBoards(userId: string): Promise<GetAllBoards[]> {
         const redis = await getRedisClient();
         const cacheKey = this.getAllBoardsCacheKey(userId);
 
