@@ -61,8 +61,30 @@ export const boardSchema = z.object({
 });
 export type Board = z.infer<typeof boardSchema>;
 
-export const getAllBoardsSchema = boardSchema.pick({id: true, title: true}).array();
+export const getAllBoardsSchema = boardSchema.pick({id: true, title: true, createdAt: true});
 export type GetAllBoards = z.infer<typeof getAllBoardsSchema>;
+
+export const createBoardSchema = boardSchema.pick({title: true});
+export type CreateBoard = z.infer<typeof createBoardSchema>;
 
 export const updateBoardSchema = boardSchema.pick({title: true, version: true});
 export type UpdateBoard = z.infer<typeof updateBoardSchema>;
+
+export const createCategorySchema = categorySchema.pick({title: true});
+export type CreateCategory = z.infer<typeof createCategorySchema>;
+
+export const updateCategorySchema = categorySchema
+    .pick({title: true, position: true, version: true})
+    .partial({title: true, position: true});
+export type UpdateCategory = z.infer<typeof updateCategorySchema>;
+
+export const createTaskSchema = taskSchema.pick({description: true, categoryId: true});
+export type CreateTask = z.infer<typeof createTaskSchema>;
+
+export const updateTaskSchema = taskSchema
+    .pick({description: true, position: true, categoryId: true, version: true})
+    .partial({description: true, position: true, categoryId: true});
+export type UpdateTask = z.infer<typeof updateTaskSchema>;
+
+export const deleteTaskCategory = taskSchema.pick({version: true});
+export type DeleteTaskCategory = z.infer<typeof deleteTaskCategory>;
