@@ -1,6 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import {auth} from "@/lib/auth";
 import {RedisAllBoardService} from "@/lib/redis-board-service";
+import {createBoardSchema} from "@/types/board";
 
 export async function GET(req: NextRequest) {
     try {
@@ -29,7 +30,10 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Unauthorized", status: 401 });
         }
 
-        await RedisAllBoardService.createBoard(session.user.id, "");
+        const body = await req.json();
+        const parsed = createBoardSchema.parse(body);
+
+        await RedisAllBoardService.createBoard(session.user.id, parsed.title);
 
         return NextResponse.json("Board created successfully.");
     }
