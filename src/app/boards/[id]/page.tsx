@@ -5,8 +5,20 @@ import {BoardViewProvider} from "@/context/BoardViewContext";
 import {BoardContent} from "@/components/board/BoardContent";
 import Link from "next/link";
 import {OptionsDropDownMenu} from "@/components/auth/OptionsDropDownMenu";
+import {headers} from "next/headers";
+import {auth} from "@/lib/auth";
+import {redirect} from "next/navigation";
 
-const Page = () => {
+const Page = async () => {
+    const headersList = await headers()
+    const session = await auth.api.getSession({
+        headers: headersList
+    });
+
+    if (!session) {
+        redirect("/auth/login");
+    }
+
     return (
         <div className="h-full">
             <SidebarProvider className="h-full">
