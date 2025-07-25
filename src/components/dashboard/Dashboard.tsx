@@ -15,7 +15,7 @@ const Dashboard = ({username}: DashboardProps) => {
     const {data, isLoading, error} = useAllBoardsQuery();
 
     return (
-        <div className="h-dvh flex flex-col px-2 py-6">
+        <div className="flex-1 flex flex-col px-2 py-6">
             <div className="flex flex-col items-center justify-center p-5 gap-4">
                 <div className="flex flex-col items-center justify-center p-5">
                     <h1 className="text-lg text-center">Welcome {username}!</h1>

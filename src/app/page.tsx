@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-      <div className="flex items-center justify-center h-dvh">
+      <div className="flex flex-1 items-center justify-center">
         <div className="flex items-center justify-center flex-col gap-8">
           <div className="flex justify-center gap-6 flex-col items-center">
             <h1 className="text-6xl font-bold text-center">Welcome to Collab Board</h1>
