@@ -19,7 +19,6 @@ export class RedisBoardService {
                 categories: {
                     include: { tasks: true },
                 },
-                users: true
             },
         });
 
@@ -63,7 +62,12 @@ export class RedisBoardService {
 
         const freshBoard = await this.refreshBoardCache(boardId);
 
-        const userIds = freshBoard.users.map((user) => user.userId);
+        const boardUsers = await prisma.boardUser.findMany({
+            where: { boardId: boardId },
+            select: { userId: true }
+        });
+
+        const userIds = boardUsers.map((user) => user.userId);
         await Promise.all(userIds.map(userId =>
             RedisAllBoardService.invalidateAllBoards(userId)
         ));

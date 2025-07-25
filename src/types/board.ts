@@ -37,7 +37,6 @@ export const boardSchema = z.object({
     id: z.string(),
     title: z.string(),
     version: z.number(),
-    users: z.array(boardUserSchema),
     categories: z.array(categorySchema),
     createdAt: z.coerce.date(),
     updatedAt: z.coerce.date(),
