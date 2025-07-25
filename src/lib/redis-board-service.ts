@@ -73,18 +73,23 @@ export class RedisBoardService {
 
     static async deleteBoard(boardId: string) {
         const boardUsers = await prisma.boardUser.findMany({
-            where: { id: boardId },
+            where: { boardId: boardId },
             select: { userId: true }
         });
 
         const userIds = boardUsers.map(bu => bu.userId);
-        await Promise.all(userIds.map(userId =>
-            RedisUserService.invalidateUserRole(boardId, userId)
-        ));
 
         await prisma.board.delete({
             where: { id: boardId },
         });
+
+        await Promise.all(userIds.map(userId =>
+            RedisAllBoardService.invalidateAllBoards(userId)
+        ));
+
+        await Promise.all(userIds.map(userId =>
+            RedisUserService.invalidateUserRole(boardId, userId)
+        ));
 
         await this.invalidateBoard(boardId);
     }
@@ -108,6 +113,7 @@ export class RedisAllBoardService {
                     select: {
                         id: true,
                         title: true,
+                        version: true,
                         createdAt: true,
                     }
                 }
