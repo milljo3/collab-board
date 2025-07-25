@@ -4,7 +4,6 @@ import {RedisUserService} from "@/lib/redis-user-service";
 import {createCategorySchema} from "@/types/board";
 import {RedisBoardService} from "@/lib/redis-board-service";
 import {prisma} from "@/lib/prisma";
-import {Decimal} from "@prisma/client/runtime/library";
 import {POSITION_CONFIG} from "@/consts/position";
 
 export async function POST(req: NextRequest) {
@@ -32,8 +31,8 @@ export async function POST(req: NextRequest) {
         });
 
         const newPosition = lastCategory
-            ? new Decimal(lastCategory.position).plus(POSITION_CONFIG.GAP)
-            : new Decimal(POSITION_CONFIG.INITIAL_POSITION);
+            ? lastCategory.position + POSITION_CONFIG.GAP
+            : POSITION_CONFIG.INITIAL_POSITION;
 
         const category = await prisma.category.create({
             data: {
