@@ -59,7 +59,7 @@ export function OptionsDropDownMenu() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end">
                 <DropdownMenuGroup>
-                    <DropdownMenuItem onClick={handleProfile}>
+                    <DropdownMenuItem onSelect={handleProfile}>
                         Profile
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
