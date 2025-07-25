@@ -1,6 +1,7 @@
 import {headers} from "next/headers";
 import {auth} from "@/lib/auth";
 import {redirect} from "next/navigation";
+import Dashboard from "@/components/dashboard/Dashboard";
 
 const Page = async () => {
     const headersList = await headers()
@@ -14,9 +15,7 @@ const Page = async () => {
     }
 
     return (
-        <div>
-            DASHBOARD        
-        </div>
+        <Dashboard username={session.user.name} />
     );
 };
 
