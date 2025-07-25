@@ -1,6 +1,5 @@
 import {z} from "zod";
 import {Role} from "@prisma/client";
-import { Decimal } from "@prisma/client/runtime/library";
 
 // Prisma types
 export const boardUserSchema = z.object({
@@ -14,15 +13,7 @@ export type BoardUser = z.infer<typeof boardUserSchema>;
 export const taskSchema = z.object({
     id: z.string(),
     description: z.string(),
-    position: z.preprocess(val => {
-        if (val instanceof Decimal) {
-            return val.toNumber();
-        }
-        if (typeof val === "string" || typeof val === "number") {
-            return parseFloat(val as string);
-        }
-        return val;
-    }, z.number()),
+    position: z.number(),
     version: z.number(),
     categoryId: z.string(),
     createdAt: z.coerce.date(),
@@ -33,15 +24,7 @@ export type Task = z.infer<typeof taskSchema>;
 export const categorySchema = z.object({
     id: z.string(),
     title: z.string(),
-    position: z.preprocess(val => {
-        if (val instanceof Decimal) {
-            return val.toNumber();
-        }
-        if (typeof val === "string" || typeof val === "number") {
-            return parseFloat(val as string);
-        }
-        return val;
-    }, z.number()),
+    position: z.number(),
     version: z.number(),
     boardId: z.string(),
     tasks: z.array(taskSchema),
@@ -61,7 +44,7 @@ export const boardSchema = z.object({
 });
 export type Board = z.infer<typeof boardSchema>;
 
-export const getAllBoardsSchema = boardSchema.pick({id: true, title: true, createdAt: true});
+export const getAllBoardsSchema = boardSchema.pick({id: true, title: true, version: true, createdAt: true});
 export type GetAllBoards = z.infer<typeof getAllBoardsSchema>;
 
 export const createBoardSchema = boardSchema.pick({title: true});

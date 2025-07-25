@@ -38,10 +38,10 @@ model BoardUser {
 }
 
 model Category {
-  id       String  @id @default(uuid())
+  id       String @id @default(uuid())
   title    String
-  position Decimal @db.Decimal(20, 6)
-  version  Int     @default(1)
+  position Float
+  version  Int    @default(1)
 
   boardId String
   board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
@@ -52,10 +52,10 @@ model Category {
 }
 
 model Task {
-  id          String  @id @default(uuid())
+  id          String @id @default(uuid())
   description String
-  position    Decimal @db.Decimal(20, 6)
-  version     Int     @default(1)
+  position    Float
+  version     Int    @default(1)
 
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
