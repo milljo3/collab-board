@@ -20,12 +20,12 @@ const Page = async () => {
     }
 
     return (
-        <div className="h-full">
+        <div className="h-full w-full overflow-hidden">
             <SidebarProvider className="h-full">
                 <BoardViewProvider>
                     <BoardSidebar />
-                    <SidebarInset>
-                        <div className="flex h-full flex-col">
+                    <SidebarInset className="min-w-0 w-0 flex-1">
+                        <div className="flex h-full flex-col min-w-0 w-full">
                             <header className="flex h-16 shrink-0 items-center gap-2 px-4 border-b">
                                 <header className="flex justify-between items-center w-full p-4 shrink-0">
                                     <Link href="/" className="text-lg font-semibold">
@@ -34,7 +34,7 @@ const Page = async () => {
                                     <OptionsDropDownMenu />
                                 </header>
                             </header>
-                            <div className="flex-1 overflow-auto">
+                            <div className="flex-1 min-w-0 w-full overflow-hidden">
                                 <BoardContent />
                             </div>
                         </div>
