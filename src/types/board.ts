@@ -60,6 +60,9 @@ export const updateCategorySchema = categorySchema
     .partial({title: true, position: true});
 export type UpdateCategory = z.infer<typeof updateCategorySchema>;
 
+export const taskInputSchema = taskSchema.pick({description: true});
+export type TaskInput = z.infer<typeof taskInputSchema>;
+
 export const createTaskSchema = taskSchema.pick({description: true, categoryId: true});
 export type CreateTask = z.infer<typeof createTaskSchema>;
 

@@ -3,6 +3,8 @@ import {useBoardQuery} from "@/hooks/useBoardQuery";
 import {redirect, useParams} from "next/navigation";
 import {toast} from "sonner";
 import {Loader2} from "lucide-react";
+import Category from "@/components/board/category/Category";
+import AddCategoryButton from "@/components/board/category/AddCategoryButton";
 
 const Board = () => {
     const params = useParams();
@@ -20,7 +22,7 @@ const Board = () => {
     if (isLoading) {
         return (
             <div className="flex flex-col items-center h-dvh justify-center">
-                <p>Fetching meeting...</p>
+                <p>Fetching board...</p>
                 <Loader2 className="animate-spin h-6 w-6" />
             </div>
         )
@@ -31,11 +33,14 @@ const Board = () => {
     }
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-6">{data.title}</h1>
+        <div className="flex flex-col gap-4 pt-4 pb-4 pl-4 w-full h-full min-w-0">
+            <h1 className="text-2xl font-bold mb-6 flex-shrink-0">{data.title}</h1>
 
-            <div className="space-y-6">
-                <p className="text-gray-600">Board content goes here...</p>
+            <div className="flex gap-4 w-full h-full overflow-x-auto min-w-0 pr-4">
+                {data.categories.map((category) => (
+                    <Category key={category.id} category={category} />
+                ))}
+                <AddCategoryButton boardId={id} />
             </div>
         </div>
     );
