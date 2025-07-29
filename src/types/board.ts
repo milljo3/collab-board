@@ -52,6 +52,9 @@ export type CreateBoard = z.infer<typeof createBoardSchema>;
 export const updateBoardSchema = boardSchema.pick({title: true, version: true});
 export type UpdateBoard = z.infer<typeof updateBoardSchema>;
 
+export const categoryInputSchema = categorySchema.pick({title: true});
+export type CategoryInput = z.infer<typeof categoryInputSchema>;
+
 export const createCategorySchema = categorySchema.pick({title: true});
 export type CreateCategory = z.infer<typeof createCategorySchema>;
 
