@@ -36,6 +36,9 @@ const RoleSelect = ({boardId, userId, initialRole, isOwner}: RoleSelectProps) =>
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Roles</SelectLabel>
+                    {initialRole === Role.OWNER && (
+                        <SelectItem value="OWNER">{Role.OWNER}</SelectItem>
+                    )}
                     <SelectItem value="EDITOR">{Role.EDITOR}</SelectItem>
                     <SelectItem value="VIEWER">{Role.VIEWER}</SelectItem>
                 </SelectGroup>
