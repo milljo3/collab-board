@@ -16,7 +16,9 @@ export type BoardUser = z.infer<typeof boardUserSchema>;
 
 export const taskSchema = z.object({
     id: z.string(),
-    description: z.string(),
+    description: z.string()
+        .min(1, "Description should be at least 1 character")
+        .max(300, "Description should be at most 300 character"),
     position: z.number(),
     version: z.number(),
     categoryId: z.string(),
@@ -27,7 +29,9 @@ export type Task = z.infer<typeof taskSchema>;
 
 export const categorySchema = z.object({
     id: z.string(),
-    title: z.string(),
+    title: z.string()
+        .min(1, "Title should be at least 1 character")
+        .max(125, "Title should be at most 125 character"),
     position: z.number(),
     version: z.number(),
     boardId: z.string(),
@@ -39,7 +43,9 @@ export type Category = z.infer<typeof categorySchema>;
 
 export const boardSchema = z.object({
     id: z.string(),
-    title: z.string(),
+    title: z.string()
+        .min(1, "Title should be at least 1 character")
+        .max(150, "Title should be at most 150 character"),
     version: z.number(),
     categories: z.array(categorySchema),
     createdAt: z.coerce.date(),

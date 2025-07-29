@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/lib/auth"; // or wherever your auth comes from
+import { auth } from "@/lib/auth"
 import { updateBoardUserSchema } from "@/types/board";
 import { RedisUserService } from "@/lib/redis-user-service";
 import {RedisBoardUserService} from "@/lib/redis-board-user-service";
@@ -89,7 +89,6 @@ export async function DELETE(req: NextRequest) {
         return NextResponse.json({ error: "Internal Server Error"}, { status: 500 });
     }
 }
-
 
 function getBoardId(req: NextRequest) {
     const url = new URL(req.url);
