@@ -35,7 +35,7 @@ const Page = async () => {
                                 </header>
                             </header>
                             <div className="flex-1 min-w-0 w-full overflow-hidden">
-                                <BoardContent />
+                                <BoardContent userId={session.user.id}/>
                             </div>
                         </div>
                     </SidebarInset>

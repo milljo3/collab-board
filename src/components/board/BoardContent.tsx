@@ -3,8 +3,13 @@
 import { useBoardView } from "@/context/BoardViewContext";
 import {KanbanBoard} from "@/components/board/KanbanBoard";
 import {useParams} from "next/navigation";
+import Users from "@/components/board/users/Users";
 
-export function BoardContent() {
+interface BoardContentProps {
+    userId: string;
+}
+
+export function BoardContent({ userId }: BoardContentProps) {
     const params = useParams();
     const id = params.id as string;
 
@@ -15,10 +20,7 @@ export function BoardContent() {
             return <KanbanBoard boardId={id} />;
         case "users":
             return (
-                <div className="p-6">
-                    <h1 className="text-2xl font-bold mb-4">Users</h1>
-                    <p>Users content goes here...</p>
-                </div>
+                <Users userId={userId} boardId={id} />
             );
         default:
             return (
