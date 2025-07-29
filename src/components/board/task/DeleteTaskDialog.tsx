@@ -20,7 +20,7 @@ interface DeleteTaskDialogProps {
     onOpenChange: (open: boolean) => void;
 }
 
-const DeleteCategoryDialog = ({boardId, categoryId, taskId, description, version, open, onOpenChange}: DeleteTaskDialogProps) => {
+const DeleteTaskDialog = ({boardId, categoryId, taskId, description, version, open, onOpenChange}: DeleteTaskDialogProps) => {
     const deleteTask = useDeleteTask(boardId, categoryId, taskId);
 
     const onClick = () => {
@@ -55,4 +55,4 @@ const DeleteCategoryDialog = ({boardId, categoryId, taskId, description, version
     )
 };
 
-export default DeleteCategoryDialog;
+export default DeleteTaskDialog;
