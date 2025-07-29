@@ -19,14 +19,14 @@ export async function PATCH(req: NextRequest) {
         const session = await auth.api.getSession({ headers: req.headers });
 
         if (!session?.user) {
-            return NextResponse.json({ error: "Unauthorized", status: 401 });
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 });
         }
 
         const boardId = getBoardId(req);
 
         const access = await RedisUserService.requireBoardAccess(boardId, session.user.id, "EDIT_TASK");
         if (!access) {
-            return NextResponse.json({ error: "Unauthorized", status: 401 });
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 });
         }
 
         const taskId = getTaskId(req);
@@ -96,7 +96,7 @@ export async function PATCH(req: NextRequest) {
     }
     catch (err) {
         console.log(err);
-        return NextResponse.json({ error: "Internal Server Error", status: 500 });
+        return NextResponse.json({ error: "Internal Server Error"}, { status: 500 });
     }
 }
 
@@ -105,14 +105,14 @@ export async function DELETE(req: NextRequest) {
         const session = await auth.api.getSession({ headers: req.headers });
 
         if (!session?.user) {
-            return NextResponse.json({ error: "Unauthorized", status: 401 });
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 });
         }
 
         const boardId = getBoardId(req);
 
         const access = await RedisUserService.requireBoardAccess(boardId, session.user.id, "DELETE_TASK");
         if (!access) {
-            return NextResponse.json({ error: "Unauthorized", status: 401 });
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 });
         }
 
         const taskId = getTaskId(req);
@@ -129,7 +129,7 @@ export async function DELETE(req: NextRequest) {
     }
     catch(err) {
         console.log(err);
-        return NextResponse.json({ error: "Internal Server Error", status: 500 });
+        return NextResponse.json({ error: "Internal Server Error"}, { status: 500 });
     }
 }
 

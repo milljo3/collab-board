@@ -9,24 +9,24 @@ export async function GET(req: NextRequest) {
         const session = await auth.api.getSession({ headers: req.headers });
 
         if (!session?.user) {
-            return NextResponse.json({ error: "Unauthorized", status: 401 });
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 });
         }
 
         const id = getBoardId(req);
 
         const access = await RedisUserService.requireBoardAccess(id, session.user.id, "VIEW_BOARD");
         if (!access) {
-            return NextResponse.json({ error: "Unauthorized", status: 401 });
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 });
         }
 
         const board = await RedisBoardService.getBoard(id);
-        if (!board) return NextResponse.json({ error: "Error getting board", status: 404 });
+        if (!board) return NextResponse.json({ error: "Error getting board"}, { status: 404 });
 
         return NextResponse.json(board);
     }
     catch(err) {
         console.log(err);
-        return NextResponse.json({ error: "Internal Server Error", status: 500 });
+        return NextResponse.json({ error: "Internal Server Error"}, { status: 500 });
     }
 }
 
@@ -35,14 +35,14 @@ export async function PATCH(req: NextRequest) {
         const session = await auth.api.getSession({ headers: req.headers });
 
         if (!session?.user) {
-            return NextResponse.json({ error: "Unauthorized", status: 401 });
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 });
         }
 
         const id = getBoardId(req);
 
         const access = await RedisUserService.requireBoardAccess(id, session.user.id, "EDIT_BOARD_TITLE");
         if (!access) {
-            return NextResponse.json({ error: "Unauthorized", status: 401 });
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 });
         }
 
         const body = await req.json();
@@ -53,7 +53,7 @@ export async function PATCH(req: NextRequest) {
     }
     catch(err) {
         console.log(err);
-        return NextResponse.json({ error: "Internal Server Error", status: 500 });
+        return NextResponse.json({ error: "Internal Server Error"}, { status: 500 });
     }
 }
 
@@ -62,14 +62,14 @@ export async function DELETE(req: NextRequest) {
         const session = await auth.api.getSession({ headers: req.headers });
 
         if (!session?.user) {
-            return NextResponse.json({ error: "Unauthorized", status: 401 });
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 });
         }
 
         const id = getBoardId(req);
 
         const access = await RedisUserService.requireBoardAccess(id, session.user.id, "DELETE_BOARD");
         if (!access) {
-            return NextResponse.json({ error: "Unauthorized", status: 401 });
+            return NextResponse.json({ error: "Unauthorized"}, { status: 401 });
         }
 
         await RedisBoardService.deleteBoard(id);
@@ -78,7 +78,7 @@ export async function DELETE(req: NextRequest) {
     }
     catch(err) {
         console.log(err);
-        return NextResponse.json({ error: "Internal Server Error", status: 500 });
+        return NextResponse.json({ error: "Internal Server Error"}, { status: 500 });
     }
 }
 
