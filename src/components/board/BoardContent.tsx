@@ -1,17 +1,18 @@
 "use client"
 
 import { useBoardView } from "@/context/BoardViewContext";
-//import {useParams} from "next/navigation";
+import {KanbanBoard} from "@/components/board/KanbanBoard";
+import {useParams} from "next/navigation";
 
 export function BoardContent() {
-    //const params = useParams();
-    //const id = params.id as string;
+    const params = useParams();
+    const id = params.id as string;
 
     const { view } = useBoardView();
 
     switch (view) {
         case "board":
-            return <></>
+            return <KanbanBoard boardId={id} />;
         case "users":
             return (
                 <div className="p-6">
