@@ -1,14 +1,17 @@
 "use client"
 
 import { useBoardView } from "@/context/BoardViewContext";
-import Board from "@/components/board/Board";
+//import {useParams} from "next/navigation";
 
 export function BoardContent() {
+    //const params = useParams();
+    //const id = params.id as string;
+
     const { view } = useBoardView();
 
     switch (view) {
         case "board":
-            return <Board />;
+            return <></>
         case "users":
             return (
                 <div className="p-6">
