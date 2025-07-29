@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth"; // or wherever your auth comes from
 import { updateBoardUserSchema } from "@/types/board";
 import { RedisUserService } from "@/lib/redis-user-service";
 import {RedisBoardUserService} from "@/lib/redis-board-user-service";
+import {Role} from "@prisma/client";
 
 export async function PATCH(req: NextRequest) {
     try {
