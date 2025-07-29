@@ -332,7 +332,7 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
                                 disabled={moveTask.isPending || moveCategory.isPending}
                             />
                         )}
-                        {activeTask && <TaskCard task={activeTask} isOverlay disabled={moveTask.isPending || moveCategory.isPending}/>}
+                        {activeTask && <TaskCard task={activeTask} boardId={boardId} isOverlay disabled={moveTask.isPending || moveCategory.isPending}/>}
                     </DragOverlay>,
                     document.body
                 )}
