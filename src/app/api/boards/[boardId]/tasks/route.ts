@@ -24,8 +24,9 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const parsed = createTaskSchema.parse(body);
 
+
         const lastTask = await prisma.task.findFirst({
-            where: { id: parsed.categoryId },
+            where: { categoryId: parsed.categoryId },
             orderBy: { position: 'desc' },
             select: { position: true }
         });
