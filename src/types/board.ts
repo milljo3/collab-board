@@ -7,6 +7,10 @@ export const boardUserSchema = z.object({
     role: z.enum(Role),
     userId: z.string(),
     boardId: z.string(),
+    user: z.object({
+        name: z.string(),
+        email: z.email(),
+    }),
 });
 export type BoardUser = z.infer<typeof boardUserSchema>;
 
@@ -76,3 +80,12 @@ export type UpdateTask = z.infer<typeof updateTaskSchema>;
 
 export const deleteTaskCategory = taskSchema.pick({version: true});
 export type DeleteTaskCategory = z.infer<typeof deleteTaskCategory>;
+
+export const addBoardUserSchema = z.object({
+    email: z.email(),
+    role: z.enum(Role),
+});
+export type AddBoardUser = z.infer<typeof addBoardUserSchema>;
+
+export const updateBoardUserSchema = addBoardUserSchema.pick({role: true});
+export type UpdateBoardUser = z.infer<typeof updateBoardUserSchema>;
