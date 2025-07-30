@@ -80,7 +80,7 @@ export function BoardColumn({ category, tasks, isOverlay, boardId, disabled, vie
             <div className="flex justify-between items-center w-full gap-2">
                 <h1 {...attributes}
                     {...listeners}
-                    className={`w-full text-black p-2 select-none ${viewer ? "" : "cursor-grab"}`}
+                    className={`w-full text-black p-2 select-none ${viewer || disabled ? "" : "cursor-grab"}`}
                 >
                     {category.title}
                 </h1>

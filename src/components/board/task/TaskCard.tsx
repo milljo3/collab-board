@@ -67,7 +67,7 @@ export function TaskCard({ task, boardId, isOverlay, disabled, viewer }: TaskCar
             <p
                 {...attributes}
                 {...listeners}
-                className={`truncate overflow-hidden whitespace-pre-wrap text-sm w-full p-1 select-none ${viewer ? "" : "cursor-grab active:cursor-grabbing"}`}
+                className={`truncate overflow-hidden whitespace-pre-wrap text-sm w-full p-1 select-none ${viewer || disabled ? "" : "cursor-grab active:cursor-grabbing"}`}
             >
                 {task.description}
             </p>
