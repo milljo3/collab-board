@@ -4,6 +4,7 @@ import {RedisUserService} from "@/lib/redis-user-service";
 import {RedisBoardUserService} from "@/lib/redis-board-user-service";
 import {addBoardUserSchema} from "@/types/board";
 import { prisma } from "@/lib/prisma";
+import {RedisAllBoardService} from "@/lib/redis-board-service";
 
 export async function GET(req: NextRequest) {
     try {
@@ -77,6 +78,7 @@ export async function POST(req: NextRequest) {
         });
 
         await RedisBoardUserService.refreshBoardUsersCache(boardId);
+        await RedisAllBoardService.refreshAllBoardsCache(user.id);
 
         return NextResponse.json(boardUser);
     }

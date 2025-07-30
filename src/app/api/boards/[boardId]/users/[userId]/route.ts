@@ -5,6 +5,7 @@ import { updateBoardUserSchema } from "@/types/board";
 import { RedisUserService } from "@/lib/redis-user-service";
 import {RedisBoardUserService} from "@/lib/redis-board-user-service";
 import {Role} from "@prisma/client";
+import {RedisAllBoardService} from "@/lib/redis-board-service";
 
 export async function PATCH(req: NextRequest) {
     try {
@@ -45,6 +46,7 @@ export async function PATCH(req: NextRequest) {
         });
 
         await RedisBoardUserService.refreshBoardUsersCache(boardId);
+        await RedisUserService.invalidateUserRole(boardId, targetUserId);
 
         return NextResponse.json({ success: true, boardUser: updated });
     } catch (err) {
@@ -82,6 +84,8 @@ export async function DELETE(req: NextRequest) {
         });
 
         await RedisBoardUserService.refreshBoardUsersCache(boardId);
+        await RedisAllBoardService.refreshAllBoardsCache(targetUserId);
+        await RedisUserService.invalidateUserRole(boardId, targetUserId);
 
         return NextResponse.json({ success: true });
     } catch (err) {
@@ -92,10 +96,23 @@ export async function DELETE(req: NextRequest) {
 
 function getBoardId(req: NextRequest) {
     const url = new URL(req.url);
-    return url.pathname.split("/")[3];
+    const split = url.pathname.split("/");
+
+    const id = split[3];
+    if (!id) {
+        throw new Error("Board not found");
+    }
+
+    return id;
 }
 
 function getUserId(req: NextRequest) {
     const url = new URL(req.url);
-    return url.pathname.split("/").pop()!;
+    const id = url.pathname.split("/").pop();
+
+    if (!id) {
+        throw new Error("User not found");
+    }
+
+    return id;
 }
