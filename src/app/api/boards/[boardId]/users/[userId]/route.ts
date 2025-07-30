@@ -47,6 +47,7 @@ export async function PATCH(req: NextRequest) {
 
         await RedisBoardUserService.refreshBoardUsersCache(boardId);
         await RedisUserService.invalidateUserRole(boardId, targetUserId);
+        await RedisChannelService.updateBoardUsers(boardId);
 
         return NextResponse.json({ success: true, boardUser: updated });
     } catch (err) {
@@ -86,6 +87,7 @@ export async function DELETE(req: NextRequest) {
         await RedisBoardUserService.refreshBoardUsersCache(boardId);
         await RedisAllBoardService.refreshAllBoardsCache(targetUserId);
         await RedisUserService.invalidateUserRole(boardId, targetUserId);
+        await RedisChannelService.updateBoardUsers(boardId);
 
         return NextResponse.json({ success: true });
     } catch (err) {

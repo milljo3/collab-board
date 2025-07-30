@@ -43,6 +43,7 @@ export async function POST(req: NextRequest) {
         });
 
         await RedisBoardService.refreshBoardCache(boardId);
+        await RedisChannelService.updateBoard(boardId);
 
         return NextResponse.json(category);
     }

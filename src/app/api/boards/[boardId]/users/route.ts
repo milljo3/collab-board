@@ -79,6 +79,7 @@ export async function POST(req: NextRequest) {
 
         await RedisBoardUserService.refreshBoardUsersCache(boardId);
         await RedisAllBoardService.refreshAllBoardsCache(user.id);
+        await RedisChannelService.updateBoardUsers(boardId);
 
         return NextResponse.json(boardUser);
     }

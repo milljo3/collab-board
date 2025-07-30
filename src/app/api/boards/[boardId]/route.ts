@@ -61,7 +61,10 @@ export async function PATCH(req: NextRequest) {
 
         const body = await req.json();
         const parsed = updateBoardSchema.parse(body);
+
         await RedisBoardService.updateBoard(id, parsed)
+        await RedisChannelService.updateBoard(boardId);
+        await RedisChannelService.updateAllBoards(boardId);
 
         return NextResponse.json("Board title updated successfully.");
     }
@@ -87,6 +90,7 @@ export async function DELETE(req: NextRequest) {
         }
 
         await RedisBoardService.deleteBoard(id);
+        await RedisChannelService.updateAllBoards(boardId);
 
         return NextResponse.json("Board deleted successfully.");
     }

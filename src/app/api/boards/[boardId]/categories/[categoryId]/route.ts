@@ -63,6 +63,7 @@ export async function PATCH(req: NextRequest) {
         });
 
         await RedisBoardService.refreshBoardCache(boardId);
+        await RedisChannelService.updateBoard(boardId);
 
         return NextResponse.json(updatedCategory);
     }
@@ -96,6 +97,7 @@ export async function DELETE(req: NextRequest) {
         });
 
         await RedisBoardService.refreshBoardCache(boardId);
+        await RedisChannelService.updateBoard(boardId);
 
         return NextResponse.json("category deleted successfully.");
     }
