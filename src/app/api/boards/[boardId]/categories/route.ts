@@ -5,6 +5,7 @@ import {createCategorySchema} from "@/types/board";
 import {RedisBoardService} from "@/lib/redis-board-service";
 import {prisma} from "@/lib/prisma";
 import {POSITION_CONFIG} from "@/consts/position";
+import {RedisChannelService} from "@/lib/redis-channel-service";
 
 export async function POST(req: NextRequest) {
     try {

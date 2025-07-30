@@ -6,6 +6,7 @@ import { RedisUserService } from "@/lib/redis-user-service";
 import {RedisBoardUserService} from "@/lib/redis-board-user-service";
 import {Role} from "@prisma/client";
 import {RedisAllBoardService} from "@/lib/redis-board-service";
+import {RedisChannelService} from "@/lib/redis-channel-service";
 
 export async function PATCH(req: NextRequest) {
     try {

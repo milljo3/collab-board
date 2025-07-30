@@ -5,6 +5,7 @@ import {RedisBoardUserService} from "@/lib/redis-board-user-service";
 import {addBoardUserSchema} from "@/types/board";
 import { prisma } from "@/lib/prisma";
 import {RedisAllBoardService} from "@/lib/redis-board-service";
+import {RedisChannelService} from "@/lib/redis-channel-service";
 
 export async function GET(req: NextRequest) {
     try {

@@ -4,6 +4,7 @@ import {RedisBoardService} from "@/lib/redis-board-service";
 import {RedisUserService} from "@/lib/redis-user-service";
 import {boardSchema, updateBoardSchema} from "@/types/board";
 import {prisma} from "@/lib/prisma";
+import {RedisChannelService} from "@/lib/redis-channel-service";
 
 export async function GET(req: NextRequest) {
     try {

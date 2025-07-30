@@ -4,6 +4,7 @@ import {RedisUserService} from "@/lib/redis-user-service";
 import {prisma} from "@/lib/prisma";
 import {deleteTaskCategory, updateTaskSchema} from "@/types/board";
 import {RedisBoardService} from "@/lib/redis-board-service";
+import {RedisChannelService} from "@/lib/redis-channel-service";
 
 interface UpdateTaskData {
     version: {
