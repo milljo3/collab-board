@@ -6,12 +6,12 @@ export class RedisChannelService {
         return `${RedisCacheKeys.BOARD}:update:${boardId}`;
     }
 
-    private static getAllBoardsCacheKey(boardId: string) {
-        return `${RedisCacheKeys.BOARDS}:update:${boardId}`;
-    }
-
     private static getBoardUsersCacheKey(boardId: string) {
         return `${RedisCacheKeys.USERS}:update:${boardId}`;
+    }
+
+    private static getAllBoardsCacheKey(userId: string) {
+        return `${RedisCacheKeys.BOARDS}:update:${userId}`;
     }
 
     static async updateBoard(boardId: string) {
@@ -19,13 +19,13 @@ export class RedisChannelService {
         await redis.publish(this.getBoardCacheKey(boardId), "updated");
     }
 
-    static async updateAllBoards(boardId: string) {
-        const redis = await getRedisClient();
-        await redis.publish(this.getAllBoardsCacheKey(boardId), "updated");
-    }
-
     static async updateBoardUsers(boardId: string) {
         const redis = await getRedisClient();
         await redis.publish(this.getBoardUsersCacheKey(boardId), "updated");
+    }
+
+    static async updateAllBoards(userId: string) {
+        const redis = await getRedisClient();
+        await redis.publish(this.getAllBoardsCacheKey(userId), "updated");
     }
 }

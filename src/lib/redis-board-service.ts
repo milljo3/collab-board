@@ -4,6 +4,7 @@ import {RedisCacheKeys} from "@/consts/redis";
 import {Board, boardSchema, GetAllBoards, getAllBoardsSchema, UpdateBoard} from "@/types/board";
 import {Role} from "@prisma/client";
 import {RedisUserService} from "@/lib/redis-user-service";
+import {RedisChannelService} from "@/lib/redis-channel-service";
 
 const CACHE_TTL = 600;
 
@@ -68,8 +69,10 @@ export class RedisBoardService {
         });
 
         const userIds = boardUsers.map((user) => user.userId);
-        await Promise.all(userIds.map(userId =>
-            RedisAllBoardService.invalidateAllBoards(userId)
+        await Promise.all(userIds.map(userId => {
+                RedisAllBoardService.invalidateAllBoards(userId);
+                RedisChannelService.updateAllBoards(userId);
+            }
         ));
 
         return freshBoard;
@@ -87,15 +90,14 @@ export class RedisBoardService {
             where: { id: boardId },
         });
 
-        await Promise.all(userIds.map(userId =>
-            RedisAllBoardService.invalidateAllBoards(userId)
-        ));
-
-        await Promise.all(userIds.map(userId =>
-            RedisUserService.invalidateUserRole(boardId, userId)
-        ));
-
         await this.invalidateBoard(boardId);
+
+        await Promise.all(userIds.map(userId => {
+                RedisAllBoardService.invalidateAllBoards(userId)
+                RedisUserService.invalidateUserRole(boardId, userId);
+                RedisChannelService.updateAllBoards(userId);
+            }
+        ));
     }
 
     static async invalidateBoard(boardId: string) {

@@ -89,6 +89,7 @@ export async function DELETE(req: NextRequest) {
         await RedisAllBoardService.refreshAllBoardsCache(targetUserId);
         await RedisUserService.invalidateUserRole(boardId, targetUserId);
         await RedisChannelService.updateBoardUsers(boardId);
+        await RedisChannelService.updateAllBoards(targetUserId);
 
         return NextResponse.json({ success: true });
     } catch (err) {
