@@ -27,6 +27,7 @@ import {Loader2} from "lucide-react";
 import {useMoveTask} from "@/hooks/task/useMoveTask";
 import {useMoveCategory} from "@/hooks/category/useMoveCategory";
 import AddCategoryDialog from "@/components/board/category/AddCategoryDialog";
+import {Role} from "@prisma/client";
 
 interface KanbanBoardProps {
     boardId: string,
@@ -289,6 +290,8 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
         return <p>Error</p>
     }
 
+    const viewer = data.userRole === Role.VIEWER;
+
     return (
         <DndContext
             accessibility={{
@@ -303,7 +306,9 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
             <div className="p-2 pl-4 justify-between flex">
                 <h1>{data.title}</h1>
                 <div>
-                    <AddCategoryDialog boardId={boardId} />
+                    {!viewer && (
+                        <AddCategoryDialog boardId={boardId} />
+                    )}
                 </div>
             </div>
             <BoardContainer>
@@ -315,6 +320,7 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
                             tasks={getTasksByColumnId(col.id)}
                             boardId={boardId}
                             disabled={moveTask.isPending || moveCategory.isPending}
+                            viewer={viewer}
                         />
                     ))}
                 </SortableContext>
@@ -330,9 +336,18 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
                                 tasks={getTasksByColumnId(activeColumn.id)}
                                 boardId={boardId}
                                 disabled={moveTask.isPending || moveCategory.isPending}
+                                viewer={viewer}
                             />
                         )}
-                        {activeTask && <TaskCard task={activeTask} boardId={boardId} isOverlay disabled={moveTask.isPending || moveCategory.isPending}/>}
+                        {activeTask &&
+                            <TaskCard
+                                task={activeTask}
+                                boardId={boardId}
+                                isOverlay
+                                disabled={moveTask.isPending || moveCategory.isPending}
+                                viewer={viewer}
+                            />
+                        }
                     </DragOverlay>,
                     document.body
                 )}

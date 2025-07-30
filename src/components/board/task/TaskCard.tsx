@@ -9,6 +9,7 @@ interface TaskCardProps {
     boardId: string;
     isOverlay?: boolean;
     disabled: boolean;
+    viewer: boolean;
 }
 
 export type TaskType = "Task";
@@ -18,7 +19,7 @@ export interface TaskDragData {
     task: Task;
 }
 
-export function TaskCard({ task, boardId, isOverlay, disabled }: TaskCardProps) {
+export function TaskCard({ task, boardId, isOverlay, disabled, viewer }: TaskCardProps) {
     const {
         setNodeRef,
         attributes,
@@ -35,7 +36,7 @@ export function TaskCard({ task, boardId, isOverlay, disabled }: TaskCardProps) 
         attributes: {
             roleDescription: "Task",
         },
-        disabled: disabled
+        disabled: viewer || disabled
     });
 
     const style = {
@@ -66,18 +67,20 @@ export function TaskCard({ task, boardId, isOverlay, disabled }: TaskCardProps) 
             <p
                 {...attributes}
                 {...listeners}
-                className="truncate overflow-hidden whitespace-pre-wrap text-sm w-full cursor-grab p-1 active:cursor-grabbing select-none"
+                className={`truncate overflow-hidden whitespace-pre-wrap text-sm w-full p-1 select-none ${viewer ? "" : "cursor-grab active:cursor-grabbing"}`}
             >
                 {task.description}
             </p>
             <div className="flex justify-end w-full">
-                <TaskDropDownMenu
-                    boardId={boardId}
-                    categoryId={task.categoryId}
-                    taskId={task.id}
-                    description={task.description}
-                    version={task.version}
-                />
+                {!viewer && (
+                    <TaskDropDownMenu
+                        boardId={boardId}
+                        categoryId={task.categoryId}
+                        taskId={task.id}
+                        description={task.description}
+                        version={task.version}
+                    />
+                )}
             </div>
         </div>
     );

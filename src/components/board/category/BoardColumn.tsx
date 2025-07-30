@@ -21,9 +21,10 @@ interface BoardColumnProps {
     isOverlay?: boolean;
     boardId: string;
     disabled: boolean;
+    viewer: boolean;
 }
 
-export function BoardColumn({ category, tasks, isOverlay, boardId, disabled }: BoardColumnProps) {
+export function BoardColumn({ category, tasks, isOverlay, boardId, disabled, viewer }: BoardColumnProps) {
     const tasksIds = useMemo(() => {
         return tasks.map((task) => task.id);
     }, [tasks]);
@@ -44,7 +45,7 @@ export function BoardColumn({ category, tasks, isOverlay, boardId, disabled }: B
         attributes: {
             roleDescription: `Column: ${category.title}`,
         },
-        disabled: disabled
+        disabled: viewer || disabled
     });
 
     const style = {
@@ -79,16 +80,18 @@ export function BoardColumn({ category, tasks, isOverlay, boardId, disabled }: B
             <div className="flex justify-between items-center w-full gap-2">
                 <h1 {...attributes}
                     {...listeners}
-                    className="cursor-grab w-full text-black p-2 select-none"
+                    className={`w-full text-black p-2 select-none ${viewer ? "" : "cursor-grab"}`}
                 >
                     {category.title}
                 </h1>
-                <BoardColumnDropDownMenu
-                    boardId={boardId}
-                    categoryId={category.id}
-                    title={category.title}
-                    version={category.version}
-                />
+                {!viewer && (
+                    <BoardColumnDropDownMenu
+                        boardId={boardId}
+                        categoryId={category.id}
+                        title={category.title}
+                        version={category.version}
+                    />
+                )}
             </div>
             <div className="flex flex-col gap-2 w-full overflow-y-auto">
                 <SortableContext items={tasksIds}>
@@ -98,11 +101,14 @@ export function BoardColumn({ category, tasks, isOverlay, boardId, disabled }: B
                             task={task}
                             boardId={boardId}
                             disabled={disabled}
+                            viewer={viewer}
                         />
                     ))}
                 </SortableContext>
             </div>
-            <AddTaskDialog boardId={boardId} categoryId={category.id} />
+            {!viewer && (
+                <AddTaskDialog boardId={boardId} categoryId={category.id} />
+            )}
         </div>
     );
 }

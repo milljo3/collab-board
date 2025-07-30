@@ -68,14 +68,14 @@ const Users = ({userId, boardId}: UsersProps) => {
                                     <RoleSelect
                                         initialRole={user.role}
                                         boardId={boardId}
-                                        userId={user.id}
+                                        userId={user.userId}
                                         isOwner={isOwner}
                                     />
                                 </TableCell>
                                 <TableCell className="text-right">
                                     <DeleteUserDialog
                                         boardId={boardId}
-                                        userId={user.id}
+                                        userId={user.userId}
                                         username={user.user.name}
                                         role={user.role}
                                         isOwner={isOwner}
