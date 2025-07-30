@@ -61,7 +61,6 @@ export class RedisUserService {
         return this.ROLE_HIERARCHY[userRole] >= this.ROLE_HIERARCHY[requiredRole];
     }
 
-    // Call in user routes (updated role / deleting a user)
     static async invalidateUserRole(boardId: string, userId: string) {
         const redis = await getRedisClient();
         await redis.del(this.getUsersCacheKey(boardId, userId));

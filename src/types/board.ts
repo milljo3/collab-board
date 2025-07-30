@@ -46,6 +46,7 @@ export const boardSchema = z.object({
     title: z.string()
         .min(1, "Title should be at least 1 character")
         .max(150, "Title should be at most 150 character"),
+    userRole: z.enum(Role).optional(),
     version: z.number(),
     categories: z.array(categorySchema),
     createdAt: z.coerce.date(),

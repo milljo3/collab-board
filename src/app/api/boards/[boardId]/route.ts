@@ -2,7 +2,8 @@ import {NextRequest, NextResponse} from "next/server";
 import {auth} from "@/lib/auth";
 import {RedisBoardService} from "@/lib/redis-board-service";
 import {RedisUserService} from "@/lib/redis-user-service";
-import {updateBoardSchema} from "@/types/board";
+import {boardSchema, updateBoardSchema} from "@/types/board";
+import {prisma} from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
     try {
@@ -22,7 +23,20 @@ export async function GET(req: NextRequest) {
         const board = await RedisBoardService.getBoard(id);
         if (!board) return NextResponse.json({ error: "Error getting board"}, { status: 404 });
 
-        return NextResponse.json(board);
+        const userRole = await prisma.boardUser.findUnique({
+            where: {
+                userId_boardId: {
+                    userId: session.user.id,
+                    boardId: id,
+                },
+            },
+            select: {
+                role: true
+            }
+        });
+
+        const result = boardSchema.parse({ ...board, userRole: userRole?.role });
+        return NextResponse.json(result);
     }
     catch(err) {
         console.log(err);
