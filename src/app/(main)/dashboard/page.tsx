@@ -4,10 +4,8 @@ import {redirect} from "next/navigation";
 import Dashboard from "@/components/dashboard/Dashboard";
 
 const Page = async () => {
-    const headersList = await headers()
-
     const session = await auth.api.getSession({
-        headers: headersList
+        headers: await headers()
     });
 
     if (!session) {

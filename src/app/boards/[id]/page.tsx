@@ -10,9 +10,8 @@ import {auth} from "@/lib/auth";
 import {redirect} from "next/navigation";
 
 const Page = async () => {
-    const headersList = await headers()
     const session = await auth.api.getSession({
-        headers: headersList
+        headers: await headers()
     });
 
     if (!session) {

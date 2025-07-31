@@ -6,10 +6,8 @@ import ChangePasswordForm from "@/components/auth/ChangePasswordForm";
 import ReturnButton from "@/components/ReturnButton";
 
 const Page = async () => {
-    const headersList = await headers()
-
     const session = await auth.api.getSession({
-        headers: headersList
+        headers: await headers()
     });
 
     if (!session) {
@@ -36,7 +34,7 @@ const Page = async () => {
 
             <ReturnButton
                 href="/dashboard"
-                className="absolute md:top-12 lg:left-40 md:left-20 w-[120px] p-0 hidden md:block"
+                className="absolute md:top-20 lg:left-40 md:left-20 w-[120px] p-0 hidden md:block"
             />
         </div>
     );
