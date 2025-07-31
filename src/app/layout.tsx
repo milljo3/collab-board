@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import {Toaster} from "sonner";
 import QueryProvider from "@/app/providers/QueryProvider";
+import {WebSocketProvider} from "@/context/WebSocketContext";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -30,7 +31,9 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}
         >
         <QueryProvider>
-            {children}
+            <WebSocketProvider>
+                {children}
+            </WebSocketProvider>
             <Toaster position="top-center" theme="dark" richColors={true} />
         </QueryProvider>
         </body>
