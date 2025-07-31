@@ -9,6 +9,9 @@ export const auth = betterAuth({
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
+    rateLimit: {
+        storage: "secondary-storage"
+    },
     secondaryStorage: {
         get: async (key: string) => {
             try {
