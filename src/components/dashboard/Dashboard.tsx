@@ -6,6 +6,7 @@ import {Loader2} from "lucide-react";
 import BoardCard from "@/components/dashboard/BoardCard";
 import {Separator} from "@/components/ui/separator";
 import BoardDialog from "@/components/dashboard/CreateBoardDialog";
+import {useAllBoardsSync} from "@/hooks/web-sockets/subscriptions";
 
 interface DashboardProps {
     username: string;
@@ -13,6 +14,8 @@ interface DashboardProps {
 
 const Dashboard = ({username}: DashboardProps) => {
     const {data, isLoading, error} = useAllBoardsQuery();
+
+    useAllBoardsSync();
 
     return (
         <div className="flex-1 flex flex-col px-2 py-6">

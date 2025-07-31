@@ -28,6 +28,7 @@ import {useMoveTask} from "@/hooks/task/useMoveTask";
 import {useMoveCategory} from "@/hooks/category/useMoveCategory";
 import AddCategoryDialog from "@/components/board/category/AddCategoryDialog";
 import {Role} from "@prisma/client";
+import {useBoardSync} from "@/hooks/web-sockets/subscriptions";
 
 interface KanbanBoardProps {
     boardId: string,
@@ -37,6 +38,8 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
     const { data, isLoading, error } = useBoardQuery(boardId);
     const moveTask = useMoveTask(boardId);
     const moveCategory = useMoveCategory(boardId);
+
+    useBoardSync(boardId);
 
     const [dragStartState, setDragStartState] = useState<{
         taskId: string;

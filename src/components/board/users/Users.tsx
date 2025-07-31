@@ -13,6 +13,7 @@ import {
 import RoleSelect from "@/components/board/users/RoleSelect";
 import DeleteUserDialog from "@/components/board/users/DeleteUserDialog";
 import AddUserDialog from "@/components/board/users/AddUserDialog";
+import {useBoardUsersSync} from "@/hooks/web-sockets/subscriptions";
 
 interface UsersProps {
     userId: string;
@@ -21,6 +22,8 @@ interface UsersProps {
 
 const Users = ({userId, boardId}: UsersProps) => {
     const { data, isLoading, error } = useBoardUsersQuery(boardId);
+
+    useBoardUsersSync(boardId);
 
     if (isLoading) {
         return (
