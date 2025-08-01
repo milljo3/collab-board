@@ -28,7 +28,6 @@ import {useMoveTask} from "@/hooks/task/useMoveTask";
 import {useMoveCategory} from "@/hooks/category/useMoveCategory";
 import AddCategoryDialog from "@/components/board/category/AddCategoryDialog";
 import {Role} from "@prisma/client";
-import Presence from "@/components/board/Presence";
 import {ConnectionStatus} from "@/components/board/ConnectionStatus";
 
 interface KanbanBoardProps {
@@ -310,7 +309,6 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
                 <h1>{data.title}</h1>
                 <div className="flex justify-between gap-4">
                     <ConnectionStatus />
-                    <Presence boardId={boardId} maxVisible={5} />
                     {!viewer && (
                         <AddCategoryDialog boardId={boardId} />
                     )}
