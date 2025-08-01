@@ -48,7 +48,7 @@ export function TaskCard({ task, boardId, isOverlay, disabled, viewer }: TaskCar
         variants: {
             dragging: {
                 over: "ring-2 opacity-30",
-                overlay: "ring-2 ring-primary",
+                overlay: "ring-2 ring-primary text-white",
             },
         },
     });

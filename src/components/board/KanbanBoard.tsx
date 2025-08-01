@@ -28,7 +28,8 @@ import {useMoveTask} from "@/hooks/task/useMoveTask";
 import {useMoveCategory} from "@/hooks/category/useMoveCategory";
 import AddCategoryDialog from "@/components/board/category/AddCategoryDialog";
 import {Role} from "@prisma/client";
-import {useBoardSync} from "@/hooks/web-sockets/subscriptions";
+import Presence from "@/components/board/Presence";
+import {ConnectionStatus} from "@/components/board/ConnectionStatus";
 
 interface KanbanBoardProps {
     boardId: string,
@@ -36,10 +37,9 @@ interface KanbanBoardProps {
 
 export function KanbanBoard({ boardId }: KanbanBoardProps) {
     const { data, isLoading, error } = useBoardQuery(boardId);
+
     const moveTask = useMoveTask(boardId);
     const moveCategory = useMoveCategory(boardId);
-
-    useBoardSync(boardId);
 
     const [dragStartState, setDragStartState] = useState<{
         taskId: string;
@@ -308,7 +308,9 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
         >
             <div className="p-2 pl-4 justify-between flex">
                 <h1>{data.title}</h1>
-                <div>
+                <div className="flex justify-between gap-4">
+                    <ConnectionStatus />
+                    <Presence boardId={boardId} maxVisible={5} />
                     {!viewer && (
                         <AddCategoryDialog boardId={boardId} />
                     )}

@@ -1,4 +1,3 @@
-import React from 'react';
 import {useBoardUsersQuery} from "@/hooks/useBoardUsersQuery";
 import {Loader2} from "lucide-react";
 import {
@@ -13,7 +12,6 @@ import {
 import RoleSelect from "@/components/board/users/RoleSelect";
 import DeleteUserDialog from "@/components/board/users/DeleteUserDialog";
 import AddUserDialog from "@/components/board/users/AddUserDialog";
-import {useBoardUsersSync} from "@/hooks/web-sockets/subscriptions";
 
 interface UsersProps {
     userId: string;
@@ -22,8 +20,6 @@ interface UsersProps {
 
 const Users = ({userId, boardId}: UsersProps) => {
     const { data, isLoading, error } = useBoardUsersQuery(boardId);
-
-    useBoardUsersSync(boardId);
 
     if (isLoading) {
         return (
@@ -45,13 +41,13 @@ const Users = ({userId, boardId}: UsersProps) => {
     );
 
     return (
-        <div className="flex flex-col items-center h-dvh py-6">
+        <div className="flex flex-col items-center h-full py-6">
             <div className="flex justify-end w-full px-2 pr-3">
                 {isOwner && (
                     <AddUserDialog boardId={boardId} />
                 )}
             </div>
-            <div className="md:w-2/3 w-full">
+            <div className="md:w-2/3 w-full overflow-y-auto px-2 pb-4">
                 <Table>
                     <TableCaption>A list of board members.</TableCaption>
                     <TableHeader>
