@@ -30,7 +30,7 @@ export class RedisUserService {
         return `${RedisCacheKeys.USERS}:${boardId}:${userId}`;
     }
 
-    private static async getUserRole(boardId: string, userId: string): Promise<Role> {
+     static async getUserRole(boardId: string, userId: string): Promise<Role> {
         const redis = await getRedisClient();
         const cacheKey = this.getUsersCacheKey(boardId, userId);
 
