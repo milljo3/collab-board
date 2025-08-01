@@ -18,36 +18,6 @@ export const useAllBoardsSync = () => {
     }, [session?.user?.id, subscribe, unsubscribe]);
 };
 
-export const useBoardSync = (boardId?: string) => {
-    const { subscribe, unsubscribe } = useWebSocket();
-
-    useEffect(() => {
-        if (!boardId) return;
-
-        const channel = `board:update:${boardId}`;
-        subscribe(channel);
-
-        return () => {
-            unsubscribe(channel);
-        };
-    }, [boardId, subscribe, unsubscribe]);
-};
-
-export const useBoardUsersSync = (boardId?: string) => {
-    const { subscribe, unsubscribe } = useWebSocket();
-
-    useEffect(() => {
-        if (!boardId) return;
-
-        const channel = `users:update:${boardId}`;
-        subscribe(channel);
-
-        return () => {
-            unsubscribe(channel);
-        };
-    }, [boardId, subscribe, unsubscribe]);
-};
-
 export const useBoardPageSync = (boardId?: string) => {
     const { subscribe, unsubscribe } = useWebSocket();
 

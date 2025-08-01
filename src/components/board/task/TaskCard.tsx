@@ -47,7 +47,7 @@ export function TaskCard({ task, boardId, isOverlay, disabled, viewer }: TaskCar
     const variants = cva("", {
         variants: {
             dragging: {
-                over: "ring-2 opacity-30",
+                over: "opacity-30",
                 overlay: "ring-2 ring-primary",
             },
         },
