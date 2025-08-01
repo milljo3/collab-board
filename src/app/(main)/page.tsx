@@ -14,7 +14,7 @@ export default function Home() {
           <GetStartedButton />
           <div className="flex items-center justify-center flex-col gap-1">
             <small>Created by</small>
-            <Button variant="outline" className="flex items-center justify-center">
+            <Button variant="secondary" className="flex items-center justify-center text-black">
               <Link href="https://github.com/milljo3/collab-board" className="flex items-center gap-1">
                 <Image src="/githubpfp.png" alt="GitHub Profile Picture" width="25" height="25" />
                 <p>@milljo3</p>

@@ -12,7 +12,7 @@ const BoardCard = ({allBoard}: BoardCardProps) => {
     return (
         <div
             className="
-            bg-card text-card-foreground
+            bg-primary text-white
             flex flex-col w-[200px] h-32 rounded-xl relative
             "
         >

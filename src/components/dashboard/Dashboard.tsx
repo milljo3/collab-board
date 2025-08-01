@@ -25,7 +25,7 @@ const Dashboard = ({username}: DashboardProps) => {
                     <p className="text-center">Get started with your boards below!</p>
                 </div>
                 <div className="w-1/2 flex items-center justify-center">
-                    <Separator className="max-w-sm w-full bg-black" />
+                    <Separator className="max-w-sm w-full bg-black dark:bg-white" />
                 </div>
                 {data?.length !== 0 && (
                     <div className="flex flex-col md:flex-row justify-around items-center p-5 gap-6 md:w-[600px] w-full">

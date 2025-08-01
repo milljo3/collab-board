@@ -85,7 +85,7 @@ const AddUserDialog = ({ boardId }: AddUserDialogProps) => {
                                     <FormLabel>Role</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
-                                            <SelectTrigger className="w-[180px] text-black">
+                                            <SelectTrigger className="w-[180px]">
                                                 <SelectValue />
                                             </SelectTrigger>
                                         </FormControl>

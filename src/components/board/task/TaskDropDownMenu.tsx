@@ -51,7 +51,7 @@ const TaskDropDownMenu = ({boardId, categoryId, taskId, description, version, cl
                     <Button
                         size="icon"
                         variant="ghost"
-                        className="hover:bg-transparent hover:text-white size-7 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-0"
+                        className="hover:bg-transparent hover:text-white text-white  size-7 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-0"
                     >
                         <EllipsisIcon />
                     </Button>

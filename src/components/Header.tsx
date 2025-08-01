@@ -1,6 +1,7 @@
 import React from 'react';
 import {OptionsDropDownMenu} from "@/components/auth/OptionsDropDownMenu";
 import Link from "next/link";
+import {ThemeToggle} from "@/components/ThemeToggle";
 
 const Header = () => {
     return (
@@ -8,7 +9,10 @@ const Header = () => {
             <Link href="/" className="text-lg font-semibold">
                 Collab Board
             </Link>
-            <OptionsDropDownMenu />
+            <div className="flex gap-2 justify-between">
+                <ThemeToggle />
+                <OptionsDropDownMenu />
+            </div>
         </header>
     );
 };

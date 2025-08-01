@@ -45,7 +45,7 @@ const AddTaskDialog = ({ boardId, categoryId }: AddTaskDialogProps) => {
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogTrigger asChild>
                 <Button
-                    className="w-full text-black justify-start"
+                    className="w-full justify-start"
                     variant="ghost"
                 >
                     + Add a Task

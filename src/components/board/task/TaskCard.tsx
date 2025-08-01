@@ -48,7 +48,7 @@ export function TaskCard({ task, boardId, isOverlay, disabled, viewer }: TaskCar
         variants: {
             dragging: {
                 over: "ring-2 opacity-30",
-                overlay: "ring-2 ring-primary text-white",
+                overlay: "ring-2 ring-primary",
             },
         },
     });
@@ -60,14 +60,14 @@ export function TaskCard({ task, boardId, isOverlay, disabled, viewer }: TaskCar
             className={`${variants({
                 dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
             })} 
-                    shrink-0 bg-card w-full h-fit min-h-[40px] rounded-md flex flex-col items-center
-                    hover:shadow-md transition-shadow px-1
+                    shrink-0 w-full h-fit min-h-[40px] rounded-md flex flex-col items-center
+                    hover:shadow-md transition-shadow px-1 bg-primary text-white""
             `}
         >
             <p
                 {...attributes}
                 {...listeners}
-                className={`truncate overflow-hidden whitespace-pre-wrap text-sm w-full p-1 select-none ${viewer || disabled ? "" : "cursor-grab active:cursor-grabbing"}`}
+                className={`text-white truncate overflow-hidden whitespace-pre-wrap text-sm w-full p-1 select-none ${viewer || disabled ? "" : "cursor-grab active:cursor-grabbing"}`}
             >
                 {task.description}
             </p>

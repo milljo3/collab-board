@@ -48,7 +48,7 @@ const BoardColumnDropDownMenu = ({boardId, categoryId, title, version, className
                     <Button
                         size="icon"
                         variant="ghost"
-                        className="hover:bg-transparent  size-7 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-0 text-black"
+                        className="hover:bg-transparent  size-7 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:border-0 "
                     >
                         <EllipsisIcon />
                     </Button>

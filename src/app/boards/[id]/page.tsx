@@ -8,6 +8,7 @@ import {OptionsDropDownMenu} from "@/components/auth/OptionsDropDownMenu";
 import {headers} from "next/headers";
 import {auth} from "@/lib/auth";
 import {redirect} from "next/navigation";
+import {ThemeToggle} from "@/components/ThemeToggle";
 
 const Page = async () => {
     const session = await auth.api.getSession({
@@ -30,7 +31,10 @@ const Page = async () => {
                                     <Link href="/" className="text-lg font-semibold">
                                         Collab Board
                                     </Link>
-                                    <OptionsDropDownMenu />
+                                    <div className="flex gap-2 justify-between">
+                                        <ThemeToggle />
+                                        <OptionsDropDownMenu />
+                                    </div>
                                 </header>
                             </header>
                             <div className="flex-1 min-w-0 w-full overflow-hidden">

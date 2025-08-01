@@ -4,6 +4,7 @@ import "./globals.css";
 import {Toaster} from "sonner";
 import QueryProvider from "@/app/providers/QueryProvider";
 import {WebSocketProvider} from "@/context/WebSocketContext";
+import {ThemeProvider} from "next-themes";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -27,16 +28,21 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="h-full overflow-x-hidden">
-        <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}
-        >
-        <QueryProvider>
-            <WebSocketProvider>
-                {children}
-            </WebSocketProvider>
-            <Toaster position="top-center" theme="dark" richColors={true} />
-        </QueryProvider>
-        </body>
+            <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col`}>
+                <QueryProvider>
+                    <WebSocketProvider>
+                        <ThemeProvider
+                            attribute="class"
+                            defaultTheme="system"
+                            enableSystem
+                            disableTransitionOnChange
+                        >
+                            {children}
+                        </ThemeProvider>
+                    </WebSocketProvider>
+                    <Toaster position="top-center" theme="dark" richColors={true} />
+                </QueryProvider>
+            </body>
         </html>
     );
 }

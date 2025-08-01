@@ -40,6 +40,16 @@ const Users = ({userId, boardId}: UsersProps) => {
         (user) => user.userId === userId && user.role === "OWNER"
     );
 
+    const rolePriority = {
+        OWNER: 0,
+        EDITOR: 1,
+        VIEWER: 2,
+    };
+
+    const sortedUsers = [...data].sort((a, b) => {
+        return rolePriority[a.role] - rolePriority[b.role];
+    });
+
     return (
         <div className="flex flex-col items-center h-full py-6">
             <div className="flex justify-end w-full px-2 pr-3">
@@ -59,7 +69,7 @@ const Users = ({userId, boardId}: UsersProps) => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {data.map((user) => (
+                        {sortedUsers.map((user) => (
                             <TableRow key={user.id}>
                                 <TableCell className="font-medium">{user.user.name}</TableCell>
                                 <TableCell>{user.user.email}</TableCell>

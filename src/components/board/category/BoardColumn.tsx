@@ -54,7 +54,7 @@ export function BoardColumn({ category, tasks, isOverlay, boardId, disabled, vie
     };
 
     const variants = cva(
-        "bg-primary-foreground flex flex-col flex-shrink-0 snap-center",
+        "flex flex-col flex-shrink-0 snap-center",
         {
             variants: {
                 dragging: {
@@ -73,14 +73,14 @@ export function BoardColumn({ category, tasks, isOverlay, boardId, disabled, vie
             className={`${variants({
                 dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
             })} 
-                shrink-0 border-transparent border-1 text-secondary rounded-lg bg-gray-700 w-[250px] h-fit max-h-full
-                px-2 items-center gap-2 pb-2
+                shrink-0 border-transparent border-1 rounded-lg w-[250px] h-fit max-h-full
+                px-2 items-center gap-2 pb-2 dark:bg-card bg-secondary
             `}
         >
             <div className="flex justify-between items-center w-full gap-2">
                 <h1 {...attributes}
                     {...listeners}
-                    className={`w-full text-black p-2 select-none ${viewer || disabled ? "" : "cursor-grab"}`}
+                    className={`w-full  p-2 select-none ${viewer || disabled ? "" : "cursor-grab"}`}
                 >
                     {category.title}
                 </h1>

@@ -30,7 +30,7 @@ const RoleSelect = ({boardId, userId, initialRole, isOwner}: RoleSelectProps) =>
             }}
             disabled={disabled}
         >
-            <SelectTrigger className="w-[180px] text-black">
+            <SelectTrigger className="w-[180px] ">
                 <SelectValue/>
             </SelectTrigger>
             <SelectContent>
