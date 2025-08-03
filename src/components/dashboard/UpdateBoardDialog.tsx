@@ -12,29 +12,36 @@ import {CreateBoard, createBoardSchema} from "@/types/board";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
 import {useUpdateBoard} from "@/hooks/board/useUpdateBoard";
+import {useEffect} from "react";
 
 interface UpdateBoardDialogProps {
     boardId: string;
     version: number;
+    title: string;
     open: boolean;
     onOpenChange: (open: boolean) => void;
 }
 
-const UpdateBoardDialog = ({boardId, version, open, onOpenChange}: UpdateBoardDialogProps) => {
+const UpdateBoardDialog = ({boardId, version, title, open, onOpenChange}: UpdateBoardDialogProps) => {
     const updateBoard = useUpdateBoard(boardId);
 
     const form = useForm<CreateBoard>({
         resolver: zodResolver(createBoardSchema),
         defaultValues: {
-            title: "",
+            title
         }
     });
 
     const onSubmit = (data: CreateBoard) => {
-        updateBoard.mutate({title: data.title, version});
         form.reset();
+        updateBoard.mutate({title: data.title, version});
         onOpenChange(false);
     }
+
+    useEffect(() => {
+        form.reset({ title });
+    }, [title, form]);
+
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>

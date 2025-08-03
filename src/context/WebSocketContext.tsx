@@ -49,7 +49,6 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({children, w
 
         try {
             const sessionToken = session?.session.token;
-            console.log('session token', sessionToken);
             const wsUrlWithToken = `${wsUrl}?token=${sessionToken}`;
 
             const ws = new WebSocket(wsUrlWithToken);

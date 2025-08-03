@@ -29,6 +29,7 @@ const BoardCardDropDownMenu = ({boardId, title, version, className}: BoardCardDr
                 onOpenChange={setEditOpen}
                 boardId={boardId}
                 version={version}
+                title={title}
             />
 
             <DeleteBoardDialog
