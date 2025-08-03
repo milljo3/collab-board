@@ -4,7 +4,7 @@ import { useBoardView } from "@/context/BoardViewContext";
 import {KanbanBoard} from "@/components/board/KanbanBoard";
 import {useParams} from "next/navigation";
 import Users from "@/components/board/users/Users";
-import {useBoardPageSync} from "@/hooks/web-sockets/subscriptions";
+import {useBoardSocket} from "@/hooks/web-sockets/useBoardSocket";
 
 interface BoardContentProps {
     userId: string;
@@ -16,7 +16,7 @@ export function BoardContent({ userId }: BoardContentProps) {
 
     const { view } = useBoardView();
 
-    useBoardPageSync(id);
+    useBoardSocket(id);
 
     switch (view) {
         case "board":
