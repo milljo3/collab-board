@@ -29,7 +29,7 @@ export const ConnectionStatus = () => {
             Connecting...
         </TooltipTrigger>
         <TooltipContent>
-            <p>Connecting to server...</p>
+            <p>Waking up the server...</p>
         </TooltipContent>
     </Tooltip>
     );
