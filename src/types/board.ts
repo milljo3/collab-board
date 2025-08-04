@@ -96,3 +96,23 @@ export type AddBoardUser = z.infer<typeof addBoardUserSchema>;
 
 export const updateBoardUserSchema = addBoardUserSchema.pick({role: true});
 export type UpdateBoardUser = z.infer<typeof updateBoardUserSchema>;
+
+
+// Open Router AI prompt
+
+export const generateBoardPromptSchema = z.object({
+    prompt: z.string()
+        .min(30, "Prompt must be at least 30 characters")
+        .max(500, "Prompt must not exceed 500 characters"),
+    includeTasks: z.boolean(),
+});
+export type GenerateBoardPromptSchema = z.infer<typeof generateBoardPromptSchema>;
+
+export const generateTaskSchema = taskSchema.pick({description: true});
+
+export const generateCategorySchema = categorySchema.pick({title: true, tasks: true})
+    .extend({tasks: z.array(generateTaskSchema)});
+
+export const generateBoardSchema = boardSchema.pick({title: true})
+    .extend({categories: z.array(generateCategorySchema),});
+export type GenerateBoard = z.infer<typeof generateBoardSchema>;
