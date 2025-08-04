@@ -39,7 +39,7 @@ export function useCreateBoardUser(boardId: string) {
                 queryClient.setQueryData<BoardUser[]>(["board-users", boardId], context?.previousBoardUsers)
             }
 
-            toast.error("Something went wrong while adding the user to the board.");
+            toast.error("User does not exist. Please tell them to create an account.");
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ["board-users", boardId] });
