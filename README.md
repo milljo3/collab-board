@@ -10,7 +10,7 @@ Board creation supports two flows:
 * **Blank board** — manually create a board with a title.
 * **AI-generated board** — generate a board structure from a natural language prompt using **OpenRouter Mistral LLM**.
 
-Real-time updates and presence are powered by a dedicated [WebSocket server](LINK_TO_WEBSOCKET_REPO), which syncs changes between clients via Redis pub/sub.
+Real-time updates and presence are powered by a dedicated [WebSocket server](https://github.com/milljo3/collab-board-websocket-server), which syncs changes between clients via Redis pub/sub.
 
 ---
 
