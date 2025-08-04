@@ -9,9 +9,10 @@ import {
 } from "@/components/ui/sidebar"
 import {useBoardView} from "@/context/BoardViewContext";
 import {Button} from "@/components/ui/button";
-import {ChevronLeft, ChevronRight, LayoutDashboard, Users} from "lucide-react";
+import {ChevronLeft, ChevronRight, CornerDownLeft, LayoutDashboard, Users} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
+import {useRouter} from "next/navigation";
 
 const sidebarItems = [
     { key: "board", label: "Board", icon: LayoutDashboard },
@@ -21,6 +22,18 @@ const sidebarItems = [
 export function BoardSidebar() {
     const { view, setView } = useBoardView();
     const { open, toggleSidebar } = useSidebar();
+    const router = useRouter();
+
+    const dashboardButton = (
+        <Button
+            size={open ? "default" : "icon"}
+            className={cn("justify-start gap-2", !open && "items-center justify-center")}
+            onClick={() => router.push("/dashboard")}
+            >
+            <CornerDownLeft className="h-5 w-5" />
+            {open && "Return to Dashboard"}
+        </Button>
+    );
 
     return (
         <Sidebar collapsible="icon">
@@ -78,7 +91,14 @@ export function BoardSidebar() {
                     })}
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarFooter />
+            <SidebarFooter>
+                {open ? dashboardButton : (
+                    <Tooltip>
+                        <TooltipTrigger asChild>{dashboardButton}</TooltipTrigger>
+                        <TooltipContent side="right">{"Return to dashboard"}</TooltipContent>
+                    </Tooltip>
+                )}
+            </SidebarFooter>
         </Sidebar>
     )
 }
