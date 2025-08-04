@@ -13,8 +13,9 @@ import {
     taskInputSchema,
 } from "@/types/board";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {useUpdateTask} from "@/hooks/task/useUpdateTask";
+import React from "react";
 
 interface UpdateTaskDialogProps {
     boardId: string;
@@ -66,6 +67,7 @@ const UpdateTaskDialog = ({ boardId, categoryId, taskId, description, open, onOp
                                     <FormControl>
                                         <Input placeholder="Task description" {...field} />
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

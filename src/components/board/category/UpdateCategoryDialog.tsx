@@ -10,8 +10,9 @@ import {Input} from "@/components/ui/input";
 import {useForm} from "react-hook-form";
 import {CategoryInput, categoryInputSchema} from "@/types/board";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {useUpdateCategory} from "@/hooks/category/useUpdateCategory";
+import React from "react";
 
 interface UpdateCategoryDialogProps {
     boardId: string;
@@ -62,6 +63,7 @@ const UpdateCategoryDialog = ({ boardId, categoryId, title, open, onOpenChange, 
                                     <FormControl>
                                         <Input placeholder="Category title" {...field} />
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

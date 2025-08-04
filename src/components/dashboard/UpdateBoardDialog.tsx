@@ -10,9 +10,9 @@ import {Input} from "@/components/ui/input";
 import {useForm} from "react-hook-form";
 import {CreateBoard, createBoardSchema} from "@/types/board";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {useUpdateBoard} from "@/hooks/board/useUpdateBoard";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 
 interface UpdateBoardDialogProps {
     boardId: string;
@@ -64,6 +64,7 @@ const UpdateBoardDialog = ({boardId, version, title, open, onOpenChange}: Update
                                     <FormControl>
                                         <Input placeholder="Board title" {...field} />
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

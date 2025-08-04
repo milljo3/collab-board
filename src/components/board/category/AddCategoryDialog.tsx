@@ -12,7 +12,7 @@ import {Input} from "@/components/ui/input";
 import {useForm} from "react-hook-form";
 import {CreateCategory, createCategorySchema} from "@/types/board";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {useCreateCategory} from "@/hooks/category/useCreateCategory";
 
 interface AddCategoryDialogProps {
@@ -64,6 +64,7 @@ const AddCategoryDialog = ({ boardId }: AddCategoryDialogProps) => {
                                     <FormControl>
                                         <Input placeholder="Category title" {...field} />
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

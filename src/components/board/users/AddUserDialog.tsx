@@ -19,7 +19,7 @@ import {Input} from "@/components/ui/input";
 import {useForm} from "react-hook-form";
 import {AddBoardUser, addBoardUserSchema} from "@/types/board";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {useCreateBoardUser} from "@/hooks/board-users/useCreateBoardUser";
 import {Role} from "@prisma/client";
 
@@ -73,6 +73,7 @@ const AddUserDialog = ({ boardId }: AddUserDialogProps) => {
                                     <FormControl>
                                         <Input placeholder="email@example.com" {...field} />
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

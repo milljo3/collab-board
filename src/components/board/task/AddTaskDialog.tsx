@@ -12,7 +12,7 @@ import {Input} from "@/components/ui/input";
 import {useForm} from "react-hook-form";
 import {TaskInput, taskInputSchema} from "@/types/board";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormField, FormItem, FormLabel} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {useCreateTask} from "@/hooks/task/useCreateTask";
 
 interface AddTaskDialogProps {
@@ -71,6 +71,7 @@ const AddTaskDialog = ({ boardId, categoryId }: AddTaskDialogProps) => {
                                     <FormControl>
                                         <Input placeholder="Task description" {...field} />
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
