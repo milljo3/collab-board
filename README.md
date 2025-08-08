@@ -12,6 +12,8 @@ Board creation supports two flows:
 
 Real-time updates and presence are powered by a dedicated [WebSocket server](https://github.com/milljo3/collab-board-websocket-server), which syncs changes between clients via Redis pub/sub.
 
+🔗 **Live Demo**: [collab-board-five.vercel.app](https://collab-board-five.vercel.app)
+
 ---
 
 ## Table of Contents
