@@ -12,20 +12,18 @@ import {CategoryInput, categoryInputSchema} from "@/types/board";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {useUpdateCategory} from "@/hooks/category/useUpdateCategory";
-import React from "react";
 
 interface UpdateCategoryDialogProps {
     boardId: string;
     categoryId: string;
     title: string;
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
     version: number;
+    open: boolean;
+    onClose: () => void;
 }
 
-const UpdateCategoryDialog = ({ boardId, categoryId, title, open, onOpenChange, version }: UpdateCategoryDialogProps) => {
+const UpdateCategoryDialog = ({ boardId, categoryId, title, version, open, onClose }: UpdateCategoryDialogProps) => {
     const updateCategory = useUpdateCategory(boardId, categoryId);
-
     const form = useForm<CategoryInput>({
         resolver: zodResolver(categoryInputSchema),
         defaultValues: {
@@ -39,11 +37,11 @@ const UpdateCategoryDialog = ({ boardId, categoryId, title, open, onOpenChange, 
             title: updatedCategory.title
         });
         form.reset();
-        onOpenChange(false);
+        onClose();
     }
 
     return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog open={open} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Update category</DialogTitle>

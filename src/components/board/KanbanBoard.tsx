@@ -30,10 +30,16 @@ import AddCategoryDialog from "@/components/board/category/AddCategoryDialog";
 import {Role} from "@prisma/client";
 import Presence from "@/components/board/Presence";
 import {ConnectionStatus} from "@/components/ConnectionStatus";
+import UpdateCategoryDialog from "@/components/board/category/UpdateCategoryDialog";
+import DeleteCategoryDialog from "./category/DeleteCategoryDialog";
+import AddTaskDialog from "@/components/board/task/AddTaskDialog";
+import DeleteTaskDialog from "@/components/board/task/DeleteTaskDialog";
+import {TaskDialog} from "@/components/board/task/TaskDialog";
 
 interface KanbanBoardProps {
     boardId: string,
 }
+
 
 export function KanbanBoard({ boardId }: KanbanBoardProps) {
     const { data, isLoading, error } = useBoardQuery(boardId);
@@ -54,6 +60,36 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
 
     const [activeColumn, setActiveColumn] = useState<Category | null>(null);
     const [activeTask, setActiveTask] = useState<Task | null>(null);
+
+    const [activeDialog, setActiveDialog] = useState<"editCategory" | "deleteCategory" | "addTask" | "deleteTask" | "taskModal" | null>(null);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+
+    const handleOpenDialog =
+        (type: "editCategory" | "deleteCategory" | "addTask" | "deleteTask" | "taskModal", task?: Task, category?: Category) => {
+
+        if (!task && !category) {
+            return;
+        }
+
+        if (task) {
+            setSelectedCategory(null)
+            setSelectedTask(task);
+        }
+
+        if (category) {
+            setSelectedTask(null);
+            setSelectedCategory(category);
+        }
+
+        setActiveDialog(type);
+    }
+
+    const handleCloseDialog = () => {
+        setActiveDialog(null);
+        setSelectedTask(null);
+        setSelectedCategory(null);
+    }
 
     const sensors = useSensors(
         useSensor(MouseSensor),
@@ -192,7 +228,7 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
                     pickedUpTaskColumn.current!
                 );
                 return `Picked up Task ${
-                    active.data.current.task.description
+                    active.data.current.task.title
                 } at position: ${taskPosition + 1} of ${
                     tasksInColumn.length
                 } in column ${column?.title}`;
@@ -219,7 +255,7 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
                 );
                 if (over.data.current.task.categoryId !== pickedUpTaskColumn.current) {
                     return `Task ${
-                        active.data.current.task.description
+                        active.data.current.task.title
                     } was moved over column ${column?.title} in position ${
                         taskPosition + 1
                     } of ${tasksInColumn.length}`;
@@ -323,9 +359,9 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
                             key={col.id}
                             category={col}
                             tasks={getTasksByColumnId(col.id)}
-                            boardId={boardId}
                             disabled={moveTask.isPending || moveCategory.isPending}
                             viewer={viewer}
+                            onOpenDialog={handleOpenDialog}
                         />
                     ))}
                 </SortableContext>
@@ -339,23 +375,73 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
                                 isOverlay
                                 category={activeColumn}
                                 tasks={getTasksByColumnId(activeColumn.id)}
-                                boardId={boardId}
                                 disabled={moveTask.isPending || moveCategory.isPending}
                                 viewer={viewer}
+                                onOpenDialog={handleOpenDialog}
                             />
                         )}
                         {activeTask &&
                             <TaskCard
                                 task={activeTask}
-                                boardId={boardId}
                                 isOverlay
                                 disabled={moveTask.isPending || moveCategory.isPending}
                                 viewer={viewer}
+                                onOpenDialog={handleOpenDialog}
                             />
                         }
                     </DragOverlay>,
                     document.body
                 )}
+
+            {activeDialog === "editCategory" && selectedCategory && (
+                <UpdateCategoryDialog
+                    boardId={boardId}
+                    categoryId={selectedCategory.id}
+                    title={selectedCategory.title}
+                    version={selectedCategory.version}
+                    open={activeDialog !== null}
+                    onClose={handleCloseDialog}
+                />
+            )}
+
+            {activeDialog === "deleteCategory" && selectedCategory && (
+                <DeleteCategoryDialog
+                    boardId={boardId}
+                    categoryId={selectedCategory.id}
+                    title={selectedCategory.title}
+                    version={selectedCategory.version}
+                    open={activeDialog !== null}
+                    onClose={handleCloseDialog}
+                />
+            )}
+
+            {activeDialog === "addTask" && selectedCategory && (
+                <AddTaskDialog
+                    boardId={boardId}
+                    categoryId={selectedCategory.id}
+                    open={activeDialog !== null}
+                    onClose={handleCloseDialog}
+                />
+            )}
+
+            {activeDialog === "deleteTask" && selectedTask && (
+                <DeleteTaskDialog
+                    boardId={boardId}
+                    task={selectedTask}
+                    open={activeDialog !== null}
+                    onClose={handleCloseDialog}
+                />
+            )}
+
+            {activeDialog === "taskModal" && selectedTask && (
+                <TaskDialog
+                    boardId={boardId}
+                    task={selectedTask}
+                    open={activeDialog !== null}
+                    onClose={handleCloseDialog}
+                />
+            )}
+
         </DndContext>
     );
 

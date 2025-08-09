@@ -16,9 +16,11 @@ export type BoardUser = z.infer<typeof boardUserSchema>;
 
 export const taskSchema = z.object({
     id: z.string(),
-    description: z.string()
-        .min(1, "Description should be at least 1 character")
-        .max(300, "Description should be at most 300 character"),
+    title: z.string()
+        .min(1, "Title should be at least 1 character")
+        .max(600, "Title should be at most 600 character"),
+    details: z.string()
+        .max(300, "Details should be at most 2000 character").nullable(),
     position: z.number(),
     version: z.number(),
     categoryId: z.string(),
@@ -74,15 +76,15 @@ export const updateCategorySchema = categorySchema
     .partial({title: true, position: true});
 export type UpdateCategory = z.infer<typeof updateCategorySchema>;
 
-export const taskInputSchema = taskSchema.pick({description: true});
+export const taskInputSchema = taskSchema.pick({title: true});
 export type TaskInput = z.infer<typeof taskInputSchema>;
 
-export const createTaskSchema = taskSchema.pick({description: true, categoryId: true});
+export const createTaskSchema = taskSchema.pick({title: true, categoryId: true});
 export type CreateTask = z.infer<typeof createTaskSchema>;
 
 export const updateTaskSchema = taskSchema
-    .pick({description: true, position: true, categoryId: true, version: true})
-    .partial({description: true, position: true, categoryId: true});
+    .pick({title: true, position: true, categoryId: true, version: true})
+    .partial({title: true, position: true, categoryId: true});
 export type UpdateTask = z.infer<typeof updateTaskSchema>;
 
 export const deleteTaskCategory = taskSchema.pick({version: true});
@@ -108,7 +110,7 @@ export const generateBoardPromptSchema = z.object({
 });
 export type GenerateBoardPromptSchema = z.infer<typeof generateBoardPromptSchema>;
 
-export const generateTaskSchema = taskSchema.pick({description: true});
+export const generateTaskSchema = taskSchema.pick({title: true, details: true});
 
 export const generateCategorySchema = categorySchema.pick({title: true, tasks: true})
     .extend({tasks: z.array(generateTaskSchema)});

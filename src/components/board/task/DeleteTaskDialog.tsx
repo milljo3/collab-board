@@ -9,30 +9,28 @@ import {
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import {useDeleteTask} from "@/hooks/task/useDeleteTask";
+import {Task} from "@/types/board";
 
 interface DeleteTaskDialogProps {
     boardId: string;
-    categoryId: string;
-    taskId: string;
-    description: string;
-    version: number,
+    task: Task;
     open: boolean;
-    onOpenChange: (open: boolean) => void;
+    onClose: () => void;
 }
 
-const DeleteTaskDialog = ({boardId, categoryId, taskId, description, version, open, onOpenChange}: DeleteTaskDialogProps) => {
-    const deleteTask = useDeleteTask(boardId, categoryId, taskId);
+const DeleteTaskDialog = ({boardId, task, open, onClose}: DeleteTaskDialogProps) => {
+    const deleteTask = useDeleteTask(boardId, task.categoryId, task.id);
 
     const onClick = () => {
-        deleteTask.mutate({ version });
-        onOpenChange(false);
+        deleteTask.mutate({version: task.version});
+        onClose();
     }
 
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
+        <AlertDialog open={open} onOpenChange={onClose}>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Are you sure want to delete the task: {description}?</AlertDialogTitle>
+                    <AlertDialogTitle>Are you sure want to delete the task: {task.title}?</AlertDialogTitle>
                     <AlertDialogDescription>
                         This action cannot be undone. This will permanently delete this task.
                     </AlertDialogDescription>

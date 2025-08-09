@@ -16,19 +16,19 @@ interface DeleteCategoryDialogProps {
     title: string;
     version: number,
     open: boolean;
-    onOpenChange: (open: boolean) => void;
+    onClose: () => void;
 }
 
-const DeleteCategoryDialog = ({boardId, categoryId, title, version, open, onOpenChange}: DeleteCategoryDialogProps) => {
+const DeleteCategoryDialog = ({boardId, categoryId, title, version, open, onClose}: DeleteCategoryDialogProps) => {
     const deleteCategory = useDeleteCategory(boardId, categoryId);
 
     const onClick = () => {
         deleteCategory.mutate({ version });
-        onOpenChange(false);
+        onClose();
     }
 
     return (
-        <AlertDialog open={open} onOpenChange={onOpenChange}>
+        <AlertDialog open={open} onOpenChange={onClose}>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure want to delete the category: {title}?</AlertDialogTitle>

@@ -52,10 +52,11 @@ model Category {
 }
 
 model Task {
-  id          String @id @default(uuid())
-  description String
-  position    Float
-  version     Int    @default(1)
+  id       String  @id @default(uuid())
+  title    String
+  details  String?
+  position Float
+  version  Int     @default(1)
 
   categoryId String
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)

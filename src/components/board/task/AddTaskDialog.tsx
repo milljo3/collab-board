@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import {
     Dialog, DialogClose,
     DialogContent,
@@ -18,17 +17,17 @@ import {useCreateTask} from "@/hooks/task/useCreateTask";
 interface AddTaskDialogProps {
     boardId: string;
     categoryId: string;
+    open: boolean;
+    onClose: () => void;
 }
 
-const AddTaskDialog = ({ boardId, categoryId }: AddTaskDialogProps) => {
-    const [isOpen, setIsOpen] = useState(false);
-
+const AddTaskDialog = ({ boardId, categoryId, open, onClose }: AddTaskDialogProps) => {
     const createTask = useCreateTask(boardId, categoryId);
 
     const form = useForm<TaskInput>({
         resolver: zodResolver(taskInputSchema),
         defaultValues: {
-            description: "",
+            title: "",
         }
     });
 
@@ -38,11 +37,11 @@ const AddTaskDialog = ({ boardId, categoryId }: AddTaskDialogProps) => {
             categoryId
         });
         form.reset();
-        setIsOpen(false);
+        onClose();
     }
 
     return (
-        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog open={open} onOpenChange={onClose}>
             <DialogTrigger asChild>
                 <Button
                     className="w-full justify-start"
@@ -56,7 +55,7 @@ const AddTaskDialog = ({ boardId, categoryId }: AddTaskDialogProps) => {
                 <DialogHeader>
                     <DialogTitle>Create a new task</DialogTitle>
                     <DialogDescription>
-                        Enter the task description and click add to add a new task.
+                        Enter the task title and click add to add a new task.
                     </DialogDescription>
                 </DialogHeader>
 
@@ -64,12 +63,12 @@ const AddTaskDialog = ({ boardId, categoryId }: AddTaskDialogProps) => {
                     <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
                         <FormField
                             control={form.control}
-                            name="description"
+                            name="title"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Description</FormLabel>
+                                    <FormLabel>Title</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Task description" {...field} />
+                                        <Input placeholder="Task title" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

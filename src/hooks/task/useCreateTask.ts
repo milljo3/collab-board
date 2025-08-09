@@ -24,7 +24,8 @@ export function useCreateTask(boardId: string, categoryId: string) {
 
             const optimisticTask: Task = {
                 id: nanoid(),
-                description: newTask.description,
+                title: newTask.title,
+                details: null,
                 categoryId,
                 position: tempPosition,
                 version: 1,

@@ -122,7 +122,7 @@ const CreateBoardDialog = () => {
                                                 <FormLabel>Prompt</FormLabel>
                                                 <FormControl>
                                                     <Textarea
-                                                        placeholder="Describe your board..."
+                                                        placeholder="Describe the board you want. You can be broad or describe what categories and/or tasks you want. If you want tasks to be included, toggle 'Include Tasks'."
                                                         className="resize-none h-40"
                                                         {...field}
                                                     />

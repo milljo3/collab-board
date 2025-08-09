@@ -38,12 +38,12 @@ export async function POST(req: NextRequest) {
 
         const task = await prisma.task.create({
             data: {
-                description: parsed.description,
+                title: parsed.title,
                 position: newPosition,
                 categoryId: parsed.categoryId,
             }
         });
-
+        
         await RedisBoardService.refreshBoardCache(boardId);
         await RedisChannelService.updateBoard(boardId);
 

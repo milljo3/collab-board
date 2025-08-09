@@ -1,15 +1,16 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cva } from "class-variance-authority";
-import { Task } from "@/types/board";
+import {Category, Task} from "@/types/board";
 import TaskDropDownMenu from "@/components/board/task/TaskDropDownMenu";
+import {GripVertical} from "lucide-react";
 
 interface TaskCardProps {
     task: Task;
-    boardId: string;
     isOverlay?: boolean;
     disabled: boolean;
     viewer: boolean;
+    onOpenDialog: (type: "editCategory" | "deleteCategory" | "addTask" | "deleteTask" | "taskModal", task?: Task, category?: Category) => void;
 }
 
 export type TaskType = "Task";
@@ -19,7 +20,7 @@ export interface TaskDragData {
     task: Task;
 }
 
-export function TaskCard({ task, boardId, isOverlay, disabled, viewer }: TaskCardProps) {
+export function TaskCard({ task, isOverlay, disabled, viewer, onOpenDialog }: TaskCardProps) {
     const {
         setNodeRef,
         attributes,
@@ -64,21 +65,27 @@ export function TaskCard({ task, boardId, isOverlay, disabled, viewer }: TaskCar
                     hover:shadow-md transition-shadow px-1 bg-primary text-white""
             `}
         >
-            <p
-                {...attributes}
-                {...listeners}
-                className={`text-white truncate overflow-hidden whitespace-pre-wrap text-sm w-full p-1 select-none ${viewer || disabled ? "" : "cursor-grab active:cursor-grabbing"}`}
-            >
-                {task.description}
-            </p>
+            <div className="flex w-full items-center">
+                <span
+                    {...attributes}
+                    {...listeners}
+                    className={`p-1 cursor-grab active:cursor-grabbing ${viewer || disabled ? "cursor-default" : ""}`}
+                >
+                    <GripVertical size={16} />
+                </span>
+
+                <p
+                    className={"text-white truncate overflow-hidden whitespace-pre-wrap text-sm w-full p-1 select-none cursor-pointer"}
+                    onClick={() => onOpenDialog("taskModal", task)}
+                >
+                    {task.title}
+                </p>
+            </div>
             <div className="flex justify-end w-full">
                 {!viewer && (
                     <TaskDropDownMenu
-                        boardId={boardId}
-                        categoryId={task.categoryId}
-                        taskId={task.id}
-                        description={task.description}
-                        version={task.version}
+                        task={task}
+                        onOpenDialog={onOpenDialog}
                     />
                 )}
             </div>

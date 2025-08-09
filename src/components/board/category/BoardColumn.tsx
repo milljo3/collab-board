@@ -1,12 +1,12 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { useDndContext } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { TaskCard } from "@/components/board/task/TaskCard";
 import { cva } from "class-variance-authority";
 import { Category, Task } from "@/types/board";
-import AddTaskDialog from "@/components/board/task/AddTaskDialog";
 import BoardColumnDropDownMenu from "@/components/board/category/BoardColumnDropDownMenu";
+import {Button} from "@/components/ui/button";
 
 export type ColumnType = "Column";
 
@@ -19,12 +19,12 @@ interface BoardColumnProps {
     category: Category;
     tasks: Task[];
     isOverlay?: boolean;
-    boardId: string;
     disabled: boolean;
     viewer: boolean;
+    onOpenDialog: (type: "editCategory" | "deleteCategory" | "addTask" | "deleteTask" | "taskModal", task?: Task, category?: Category) => void;
 }
 
-export function BoardColumn({ category, tasks, isOverlay, boardId, disabled, viewer }: BoardColumnProps) {
+export function BoardColumn({ category, tasks, isOverlay, disabled, viewer, onOpenDialog }: BoardColumnProps) {
     const tasksIds = useMemo(() => {
         return tasks.map((task) => task.id);
     }, [tasks]);
@@ -86,10 +86,8 @@ export function BoardColumn({ category, tasks, isOverlay, boardId, disabled, vie
                 </h1>
                 {!viewer && (
                     <BoardColumnDropDownMenu
-                        boardId={boardId}
-                        categoryId={category.id}
-                        title={category.title}
-                        version={category.version}
+                        category={category}
+                        onOpenDialog={onOpenDialog}
                     />
                 )}
             </div>
@@ -99,15 +97,21 @@ export function BoardColumn({ category, tasks, isOverlay, boardId, disabled, vie
                         <TaskCard
                             key={task.id}
                             task={task}
-                            boardId={boardId}
                             disabled={disabled}
                             viewer={viewer}
+                            onOpenDialog={onOpenDialog}
                         />
                     ))}
                 </SortableContext>
             </div>
             {!viewer && (
-                <AddTaskDialog boardId={boardId} categoryId={category.id} />
+                <Button
+                    className="w-full justify-start"
+                    variant="ghost"
+                    onClick={() => onOpenDialog("addTask", undefined, category)}
+                >
+                    + Add a Task
+                </Button>
             )}
         </div>
     );
