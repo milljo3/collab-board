@@ -22,7 +22,7 @@ export function TaskDialog({boardId, task, open, onClose}: TaskDialogProps) {
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-[425px] md:max-w-[625px]">
+            <DialogContent className="sm:max-w-[425px] md:max-w-[625px] max-h-[600px] overflow-y-auto">
                 <TaskDialogTitle
                     boardId={boardId}
                     task={task}
