@@ -38,7 +38,7 @@ export async function generateBoard(prompt: string, includeTasks: boolean): Prom
               }
             - Categories should be relevant to the board topic. If the user specifies categories, use those exactly. Otherwise, create 3–5 relevant categories.
             ${includeTasks
-            ? "- Tasks should have a short, clear title (max 100 characters) and may optionally include a longer details field for extra context."
+            ? "- Tasks should have a short, clear title (max 600 characters) and may optionally include a longer details field for extra context (max 2000 characters)."
             : "- Do not generate any tasks — return an empty array for each category's tasks."}
             - Do not include extra fields or metadata not defined in the schema.
             - Output must be plain JSON with no markdown/code fences.
