@@ -80,13 +80,15 @@ export function BoardColumn({ category, tasks, isOverlay, disabled, viewer, onOp
         >
             <div className="flex justify-between items-center w-full gap-2">
                 <div className="flex items-center">
-                    <span
-                        {...attributes}
-                        {...listeners}
-                        className={`p-1 cursor-grab active:cursor-grabbing ${viewer || disabled ? "cursor-default" : ""}`}
-                    >
-                    <GripVertical size={16} />
-                </span>
+                    {!viewer && (
+                        <span
+                            {...attributes}
+                            {...listeners}
+                            className={`p-1 cursor-grab active:cursor-grabbing ${disabled ? "cursor-default" : ""}`}
+                        >
+                        <GripVertical size={16} />
+                    </span>
+                    )}
                     <h1
                         className={`w-full p-2 select-none`}
                     >

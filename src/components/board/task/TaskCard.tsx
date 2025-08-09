@@ -75,14 +75,16 @@ export function TaskCard({ task, isOverlay, disabled, viewer, onOpenDialog }: Ta
             onClick={handleCardClick}
         >
             <div className="flex w-full items-center">
-                <span
-                    {...attributes}
-                    {...listeners}
-                    className={`p-1 cursor-grab active:cursor-grabbing ${viewer || disabled ? "cursor-default" : ""}`}
-                    onClick={handleDragHandleClick}
-                >
+                {!viewer && (
+                    <span
+                        {...attributes}
+                        {...listeners}
+                        className={`p-1 cursor-grab active:cursor-grabbing ${disabled ? "cursor-default" : ""}`}
+                        onClick={handleDragHandleClick}
+                    >
                     <GripVertical size={16} />
                 </span>
+                )}
 
                 <p
                     className={"text-white truncate overflow-hidden whitespace-pre-wrap text-sm w-full p-1 select-none"}
