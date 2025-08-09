@@ -7,6 +7,7 @@ import { cva } from "class-variance-authority";
 import { Category, Task } from "@/types/board";
 import BoardColumnDropDownMenu from "@/components/board/category/BoardColumnDropDownMenu";
 import {Button} from "@/components/ui/button";
+import {GripVertical} from "lucide-react";
 
 export type ColumnType = "Column";
 
@@ -78,12 +79,20 @@ export function BoardColumn({ category, tasks, isOverlay, disabled, viewer, onOp
             `}
         >
             <div className="flex justify-between items-center w-full gap-2">
-                <h1 {...attributes}
-                    {...listeners}
-                    className={`w-full  p-2 select-none ${viewer || disabled ? "" : "cursor-grab"}`}
-                >
-                    {category.title}
-                </h1>
+                <div className="flex items-center">
+                    <span
+                        {...attributes}
+                        {...listeners}
+                        className={`p-1 cursor-grab active:cursor-grabbing ${viewer || disabled ? "cursor-default" : ""}`}
+                    >
+                    <GripVertical size={16} />
+                </span>
+                    <h1
+                        className={`w-full p-2 select-none`}
+                    >
+                        {category.title}
+                    </h1>
+                </div>
                 {!viewer && (
                     <BoardColumnDropDownMenu
                         category={category}
