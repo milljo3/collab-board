@@ -65,6 +65,18 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
+    useEffect(() => {
+        if (!data || !selectedTask) return;
+
+        const updatedTask = data.categories
+            .flatMap(category => category.tasks)
+            .find(task => task.id === selectedTask.id);
+
+        if (updatedTask && (updatedTask.title !== selectedTask.title || updatedTask.details !== selectedTask.details)) {
+            setSelectedTask(updatedTask);
+        }
+    }, [data, selectedTask]);
+
     const handleOpenDialog =
         (type: "editCategory" | "deleteCategory" | "addTask" | "deleteTask" | "taskModal", task?: Task, category?: Category) => {
 

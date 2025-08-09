@@ -76,16 +76,21 @@ export const updateCategorySchema = categorySchema
     .partial({title: true, position: true});
 export type UpdateCategory = z.infer<typeof updateCategorySchema>;
 
-export const taskInputSchema = taskSchema.pick({title: true});
-export type TaskInput = z.infer<typeof taskInputSchema>;
-
 export const createTaskSchema = taskSchema.pick({title: true, categoryId: true});
 export type CreateTask = z.infer<typeof createTaskSchema>;
 
 export const updateTaskSchema = taskSchema
-    .pick({title: true, position: true, categoryId: true, version: true})
-    .partial({title: true, position: true, categoryId: true});
+    .pick({title: true, details: true, position: true, categoryId: true, version: true})
+    .partial({title: true, details: true, position: true, categoryId: true});
 export type UpdateTask = z.infer<typeof updateTaskSchema>;
+
+export const taskTitleSchema = taskSchema.pick({title: true});
+export type TaskTitle = z.infer<typeof taskTitleSchema>;
+
+export const taskDetailsSchema = taskSchema.pick({details: true})
+    .extend({details: z.string()
+            .max(300, "Details should be at most 2000 character")});
+export type TaskDetails = z.infer<typeof taskDetailsSchema>;
 
 export const deleteTaskCategory = taskSchema.pick({version: true});
 export type DeleteTaskCategory = z.infer<typeof deleteTaskCategory>;

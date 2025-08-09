@@ -9,7 +9,7 @@ import {
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {useForm} from "react-hook-form";
-import {TaskInput, taskInputSchema} from "@/types/board";
+import {TaskTitle, taskTitleSchema} from "@/types/board";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {useCreateTask} from "@/hooks/task/useCreateTask";
@@ -24,14 +24,14 @@ interface AddTaskDialogProps {
 const AddTaskDialog = ({ boardId, categoryId, open, onClose }: AddTaskDialogProps) => {
     const createTask = useCreateTask(boardId, categoryId);
 
-    const form = useForm<TaskInput>({
-        resolver: zodResolver(taskInputSchema),
+    const form = useForm<TaskTitle>({
+        resolver: zodResolver(taskTitleSchema),
         defaultValues: {
             title: "",
         }
     });
 
-    const onSubmit = (createdTask: TaskInput) => {
+    const onSubmit = (createdTask: TaskTitle) => {
         createTask.mutate({
             ...createdTask,
             categoryId

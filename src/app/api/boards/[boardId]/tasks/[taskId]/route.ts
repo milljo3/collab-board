@@ -11,6 +11,7 @@ interface UpdateTaskData {
         increment: number;
     };
     title?: string;
+    details?: string;
     position?: number;
     categoryId?: string;
 }
@@ -73,6 +74,10 @@ export async function PATCH(req: NextRequest) {
 
         if (parsed.title !== undefined) {
             updateData.title = parsed.title;
+        }
+
+        if (parsed.details !== undefined) {
+            updateData.details = parsed.details;
         }
 
         if (parsed.position !== undefined) {
