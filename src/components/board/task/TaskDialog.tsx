@@ -13,9 +13,10 @@ interface TaskDialogProps {
     task: Task;
     open: boolean;
     onClose: () => void;
+    viewer: boolean;
 }
 
-export function TaskDialog({boardId, task, open, onClose}: TaskDialogProps) {
+export function TaskDialog({boardId, task, open, onClose, viewer}: TaskDialogProps) {
     const [isAddingDetails, setIsAddingDetails] = useState(false);
 
     const hasDetails = task.details && task.details.trim().length > 0;
@@ -26,22 +27,35 @@ export function TaskDialog({boardId, task, open, onClose}: TaskDialogProps) {
                 <TaskDialogTitle
                     boardId={boardId}
                     task={task}
+                    viewer={viewer}
                 />
-                {hasDetails || isAddingDetails ? (
+                {!viewer ? (
+                    hasDetails || isAddingDetails ? (
+                        <TaskDialogDetails
+                            boardId={boardId}
+                            task={task}
+                            initiallyEditing={isAddingDetails}
+                            onCancelAdd={() => setIsAddingDetails(false)}
+                            viewer={viewer}
+                        />
+                    ) : (
+                        <Button
+                            variant="ghost"
+                            onClick={() => setIsAddingDetails(true)}
+                        >
+                            Add details
+                        </Button>
+                    )
+                ) : (
                     <TaskDialogDetails
                         boardId={boardId}
                         task={task}
-                        initiallyEditing={isAddingDetails}
+                        initiallyEditing={false}
                         onCancelAdd={() => setIsAddingDetails(false)}
+                        viewer={viewer}
                     />
-                ) : (
-                    <Button
-                        variant="ghost"
-                        onClick={() => setIsAddingDetails(true)}
-                    >
-                        Add details
-                    </Button>
-                )}
+                    )}
+
             </DialogContent>
         </Dialog>
     )

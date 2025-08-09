@@ -15,9 +15,10 @@ import {Textarea} from "@/components/ui/textarea";
 interface TaskDialogTitleProps {
     boardId: string;
     task: Task;
+    viewer: boolean;
 }
 
-const TaskDialogTitle = ({boardId, task}: TaskDialogTitleProps) => {
+const TaskDialogTitle = ({boardId, task, viewer}: TaskDialogTitleProps) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const updateTaskTitle = useUpdateTaskTitle(boardId, task.categoryId, task.id);
@@ -97,13 +98,15 @@ const TaskDialogTitle = ({boardId, task}: TaskDialogTitleProps) => {
             ) : (
                 <div className="flex gap-2 px-2">
                     <DialogTitle className="self-center">{task.title}</DialogTitle>
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        onClick={() => setIsEditing(true)}
-                    >
-                        <EditIcon />
-                    </Button>
+                    {!viewer && (
+                        <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => setIsEditing(true)}
+                        >
+                            <EditIcon />
+                        </Button>
+                    )}
                 </div>
             )}
         </DialogHeader>

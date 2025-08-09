@@ -451,6 +451,7 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
                     task={selectedTask}
                     open={activeDialog !== null}
                     onClose={handleCloseDialog}
+                    viewer={viewer}
                 />
             )}
 

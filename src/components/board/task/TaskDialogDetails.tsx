@@ -13,9 +13,10 @@ interface TaskDialogDetailsProps {
     task: Task;
     initiallyEditing?: boolean;
     onCancelAdd?: () => void;
+    viewer: boolean;
 }
 
-const TaskDialogDetails = ({boardId, task, initiallyEditing, onCancelAdd}: TaskDialogDetailsProps) => {
+const TaskDialogDetails = ({boardId, task, initiallyEditing, onCancelAdd, viewer}: TaskDialogDetailsProps) => {
     const [isEditing, setIsEditing] = useState(initiallyEditing);
 
     const updateTaskDetails = useUpdateTaskDetails(boardId, task.id);
@@ -115,13 +116,15 @@ const TaskDialogDetails = ({boardId, task, initiallyEditing, onCancelAdd}: TaskD
                         <p className="self-center whitespace-pre-wrap">
                             {task.details}
                         </p>
-                        <Button
-                            size="icon"
-                            variant="ghost"
-                            onClick={() => setIsEditing(true)}
-                        >
-                            <EditIcon />
-                        </Button>
+                        {!viewer && (
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                onClick={() => setIsEditing(true)}
+                            >
+                                <EditIcon />
+                            </Button>
+                        )}
                     </div>
                 )
             )}
