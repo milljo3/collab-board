@@ -99,6 +99,7 @@ Real-time updates and presence are powered by a dedicated [WebSocket server](htt
 
 * ~~Task modal w/ task details~~
 * More task content such as comments, attachments and task color
+* Email board invitations + new user invitations
 * Offline support with optimistic updates
 * Board log / history
 * Weekly / daily AI summary of a board the summzarizes what a user did that week / day w/ Redis to cache LLM response
