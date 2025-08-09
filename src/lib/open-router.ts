@@ -22,7 +22,8 @@ export async function generateBoard(prompt: string, includeTasks: boolean): Prom
                   "title": string,
                   "tasks": [
                     {
-                      "description": string
+                      "title": string,
+                      "details": string | null
                     }
                   ]
                 }
@@ -36,14 +37,13 @@ export async function generateBoard(prompt: string, includeTasks: boolean): Prom
                 "categories": []
               }
             - Categories should be relevant to the board topic. If the user specifies categories, use those exactly. Otherwise, create 3–5 relevant categories.
-            - ${includeTasks
-                        ? "Tasks should be short, descriptive actions (max 300 characters)."
-                        : "Do not generate any tasks — return an empty array for each category's tasks."}
+            ${includeTasks
+            ? "- Tasks should have a short, clear title (max 100 characters) and may optionally include a longer details field for extra context."
+            : "- Do not generate any tasks — return an empty array for each category's tasks."}
             - Do not include extra fields or metadata not defined in the schema.
-            - Do not add IDs, dates, positions, or versions — only what the schema defines.
             - Output must be plain JSON with no markdown/code fences.
             - Be strict — never fabricate structure if prompt is clearly unrelated.
-                    `.trim();
+        `.trim();
 
         const response = await fetch(url, {
             method: "POST",
@@ -62,7 +62,7 @@ export async function generateBoard(prompt: string, includeTasks: boolean): Prom
                         - A title based on the request.
                         - Categories (use user-provided ones if present, otherwise generate relevant ones).
                         ${includeTasks
-                            ? "- Tasks (if the user provides them, place them in the correct categories; otherwise, generate reasonable tasks for each category)."
+                            ? "- Tasks (if the user provides them, place them in the correct categories; otherwise, generate reasonable tasks for each category). Each task should have a short title and may optionally have a details field for extra context."
                             : "- No tasks should be generated — leave all category tasks arrays empty."}
                         `.trim()
                     }
@@ -95,12 +95,16 @@ export async function generateBoard(prompt: string, includeTasks: boolean): Prom
                                                 items: {
                                                     type: "object",
                                                     properties: {
-                                                        description: {
+                                                        title: {
                                                             type: "string",
-                                                            description: "Task description"
+                                                            description: "Short, clear title of the task"
+                                                        },
+                                                        details: {
+                                                            type: ["string", "null"],
+                                                            description: "Optional longer details about the task"
                                                         }
                                                     },
-                                                    required: ["description"],
+                                                    required: ["title"],
                                                     additionalProperties: false
                                                 }
                                             }

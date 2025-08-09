@@ -34,7 +34,8 @@ export async function POST(req: NextRequest) {
                         position: (categoryIndex + 1) * POSITION_CONFIG.GAP,
                         tasks: {
                             create: category.tasks.map((task, taskIndex) => ({
-                                description: task.description,
+                                title: task.title,
+                                details: task.details,
                                 position: (taskIndex + 1) * POSITION_CONFIG.GAP
                             }))
                         }
