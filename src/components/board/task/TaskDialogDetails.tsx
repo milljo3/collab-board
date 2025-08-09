@@ -112,7 +112,7 @@ const TaskDialogDetails = ({boardId, task, initiallyEditing, onCancelAdd}: TaskD
             ) : (
                 hasDetails && (
                     <div className="flex gap-2 px-2">
-                        <p className="self-center">
+                        <p className="self-center whitespace-pre-wrap">
                             {task.details}
                         </p>
                         <Button
