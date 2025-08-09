@@ -89,7 +89,7 @@ export type TaskTitle = z.infer<typeof taskTitleSchema>;
 
 export const taskDetailsSchema = taskSchema.pick({details: true})
     .extend({details: z.string()
-            .max(300, "Details should be at most 2000 character")});
+            .max(5000, "Details should be at most 5000 character")});
 export type TaskDetails = z.infer<typeof taskDetailsSchema>;
 
 export const deleteTaskCategory = taskSchema.pick({version: true});
