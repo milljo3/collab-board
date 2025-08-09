@@ -11,7 +11,7 @@ interface UpdateTaskData {
         increment: number;
     };
     title?: string;
-    details?: string;
+    details?: string | null;
     position?: number;
     categoryId?: string;
 }
