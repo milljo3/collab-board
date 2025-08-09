@@ -54,6 +54,14 @@ export function TaskCard({ task, isOverlay, disabled, viewer, onOpenDialog }: Ta
         },
     });
 
+    const handleCardClick = () => {
+        onOpenDialog("taskModal", task);
+    };
+
+    const handleDragHandleClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+    };
+
     return (
         <div
             ref={setNodeRef}
@@ -62,31 +70,34 @@ export function TaskCard({ task, isOverlay, disabled, viewer, onOpenDialog }: Ta
                 dragging: isOverlay ? "overlay" : isDragging ? "over" : undefined,
             })} 
                     shrink-0 w-full h-fit min-h-[40px] rounded-md flex flex-col items-center
-                    hover:shadow-md transition-shadow px-1 bg-primary text-white""
+                    hover:shadow-md transition-shadow px-1 bg-primary text-white cursor-pointer
             `}
+            onClick={handleCardClick}
         >
             <div className="flex w-full items-center">
                 <span
                     {...attributes}
                     {...listeners}
                     className={`p-1 cursor-grab active:cursor-grabbing ${viewer || disabled ? "cursor-default" : ""}`}
+                    onClick={handleDragHandleClick}
                 >
                     <GripVertical size={16} />
                 </span>
 
                 <p
-                    className={"text-white truncate overflow-hidden whitespace-pre-wrap text-sm w-full p-1 select-none cursor-pointer"}
-                    onClick={() => onOpenDialog("taskModal", task)}
+                    className={"text-white truncate overflow-hidden whitespace-pre-wrap text-sm w-full p-1 select-none"}
                 >
                     {task.title}
                 </p>
             </div>
             <div className="flex justify-end w-full">
                 {!viewer && (
-                    <TaskDropDownMenu
-                        task={task}
-                        onOpenDialog={onOpenDialog}
-                    />
+                    <div onClick={(e) => e.stopPropagation()}>
+                        <TaskDropDownMenu
+                            task={task}
+                            onOpenDialog={onOpenDialog}
+                        />
+                    </div>
                 )}
             </div>
         </div>

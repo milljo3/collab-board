@@ -20,7 +20,7 @@ export const taskSchema = z.object({
         .min(1, "Title should be at least 1 character")
         .max(600, "Title should be at most 600 character"),
     details: z.string()
-        .max(300, "Details should be at most 2000 character").nullable(),
+        .max(5000, "Details should be at most 5000 character").nullable(),
     position: z.number(),
     version: z.number(),
     categoryId: z.string(),
